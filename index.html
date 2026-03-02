@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNT Staking - डायमंड स्टेकिंग प्लेटफॉर्म</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* ========== आपका दिया हुआ CSS यहाँ ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ffff;
+            --secondary: #ff00ff;
+            --accent: #ffff00;
+            --diamond: #b9f2ff;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff4444;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000, #1a0033, #000066);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .diamond-shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .floating-diamonds::before,
+        .floating-diamonds::after {
+            content: "♦";
+            position: absolute;
+            font-size: 100px;
+            color: rgba(185, 242, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-diamonds::before {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-diamonds::after {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        /* Navbar */
+        .glass-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--diamond), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            color: var(--diamond);
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Desktop Navigation */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 100%;
+        }
+
+        /* Mobile Navigation */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin: 3px 0;
+            transition: 0.4s;
+            border-radius: 3px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(26,0,51,0.95));
+            backdrop-filter: blur(20px);
+            border-left: 2px solid var(--primary);
+            z-index: 999;
+            padding: 100px 2rem 2rem;
+            transition: 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a i {
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+            display: none;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        /* Wallet Button */
+        .connect-wallet-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connect-wallet-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: rotate 4s linear infinite;
+        }
+
+        .connect-wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .wallet-info {
+            background: var(--glass);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 2rem;
+        }
+
+        /* Page Container */
+        .page-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .glowing-text {
+            font-size: 4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .gradient-text {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,255,255,0.2);
+        }
+
+        .stat-card.diamond {
+            background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(255,0,255,0.1));
+            border: 2px solid rgba(185, 242, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card span {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            color: var(--diamond);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        /* Packages Grid */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .package-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-image-slice: 1;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .package-header {
+            margin-bottom: 2rem;
+        }
+
+        .package-header h3 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .package-apr {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+
+        .package-duration {
+            font-size: 1.2rem;
+            color: var(--diamond);
+        }
+
+        .package-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .package-features li {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .package-features i {
+            color: var(--success);
+        }
+
+        /* Forms */
+        .form-group {
+            margin: 1.5rem 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: rotate 4s linear infinite;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: black;
+            transform: translateX(5px);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            padding: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: rgba(255,170,0,0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .alert-danger {
+            background: rgba(255,68,68,0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast i {
+            color: var(--primary);
+        }
+
+        .toast.hidden {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px var(--secondary); }
+            50% { text-shadow: 0 0 20px var(--secondary), 0 0 40px var(--secondary), 0 0 60px var(--primary); }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .glowing-text {
+                font-size: 2.5rem;
+            }
+
+            .gradient-text {
+                font-size: 1.5rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                width: 100%;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wallet-info span {
+                display: none;
+            }
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .stat-small {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        /* Referral Input Styling (बड़ा किया हुआ) */
+        .activation-card {
+            max-width: 500px !important;
+            margin: 0 auto !important;
+            padding: 30px 25px !important;
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-image-slice: 1;
+            border-radius: 30px;
+        }
+
+        .referral-input {
+            margin: 20px 0 25px 0 !important;
+            width: 100% !important;
+        }
+
+        .referral-input label {
+            display: block !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            margin-bottom: 12px !important;
+            color: #00ffff !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+        }
+
+        #referrerAddress {
+            width: 100% !important;
+            padding: 20px 25px !important;
+            font-size: 18px !important;
+            border: 3px solid #00ffff !important;
+            border-radius: 15px !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            color: white !important;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3) !important;
+            transition: all 0.3s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        #referrerAddress:focus {
+            box-shadow: 0 0 30px #ff00ff !important;
+            border-color: #ff00ff !important;
+            outline: none !important;
+            transform: scale(1.02) !important;
+            background: rgba(0, 0, 0, 0.9) !important;
+        }
+
+        #referrerAddress::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+            font-size: 16px !important;
+        }
+
+        #activateBtn {
+            padding: 18px 30px !important;
+            font-size: 20px !important;
+            font-weight: 700 !important;
+            margin-top: 15px !important;
+            border-radius: 60px !important;
+            letter-spacing: 1px !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="diamond-shine"></div>
+        <div class="floating-diamonds"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-gem"></i>
+                <span>VNT STAKING</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-home"></i> डैशबोर्ड</a>
+                <a href="#" class="nav-link" data-page="stake"><i class="fas fa-coins"></i> स्टेक करें</a>
+                <a href="#" class="nav-link" data-page="packages"><i class="fas fa-box"></i> पैकेज</a>
+                <a href="#" class="nav-link" data-page="referral"><i class="fas fa-users"></i> रेफरल</a>
+                <a href="#" class="nav-link" data-page="profile"><i class="fas fa-user"></i> प्रोफाइल</a>
+            </div>
+
+            <!-- Hamburger Menu for Mobile -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Wallet Connection -->
+            <div>
+                <button class="connect-wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>कनेक्ट करें</span>
+                </button>
+                <div class="wallet-info hidden" id="walletInfo">
+                    <i class="fas fa-check-circle" style="color: #00ff88;"></i>
+                    <span id="walletAddress">0x1234...5678</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="mobile-nav-link active" data-page="dashboard">
+            <i class="fas fa-home"></i> डैशबोर्ड
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="stake">
+            <i class="fas fa-coins"></i> स्टेक करें
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="packages">
+            <i class="fas fa-box"></i> पैकेज
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="referral">
+            <i class="fas fa-users"></i> रेफरल
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="profile">
+            <i class="fas fa-user"></i> प्रोफाइल
+        </a>
+    </div>
+    <div class="mobile-menu-overlay" id="menuOverlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page-container active">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1 class="glowing-text">VNT STAKING</h1>
+                <h2 class="gradient-text">डायमंड लेवल रिवॉर्ड्स के साथ स्टेक करें</h2>
+                
+                <!-- Hero Stats -->
+                <div class="hero-stats">
+                    <div class="stat-card diamond">
+                        <i class="fas fa-gem"></i>
+                        <span id="totalStaked">0</span>
+                        <p>कुल स्टेक</p>
+                        <small class="stat-small">≈ $0</small>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <span id="totalUsers">0</span>
+                        <p>कुल यूजर्स</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-percent"></i>
+                        <span id="avgApr">60%</span>
+                        <p>औसत APR</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activation Card (Referral) -->
+            <div class="activation-card card">
+                <div class="card-header">
+                    <i class="fas fa-gem"></i>
+                    <h3>अपना रेफरल एक्टिवेट करें</h3>
+                </div>
+                <div class="referral-input">
+                    <label for="referrerAddress">
+                        <i class="fas fa-user-plus"></i> रेफरर एड्रेस (जरूरी)
+                    </label>
+                    <input type="text" id="referrerAddress" placeholder="0x... रेफरर का वॉलेट एड्रेस डालें">
+                </div>
+                <button class="btn-primary" id="activateBtn">
+                    <i class="fas fa-rocket"></i> एक्टिवेट करें और स्टेक शुरू करें
+                </button>
+                <p class="link-info" style="margin-top: 1rem;">
+                    <i class="fas fa-info-circle"></i>
+                    रेफरल एक्टिवेट करने के बाद आपको हर स्टेक पर 5% अतिरिक्त रिवॉर्ड मिलेगा!
+                </p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card premium">
+                    <i class="fas fa-coins"></i>
+                    <span class="stat-label">आपका स्टेक</span>
+                    <span class="stat-value" id="userStake">0 VNT</span>
+                    <span class="stat-small">≈ $0</span>
+                </div>
+                <div class="stat-card premium">
+                    <i class="fas fa-gift"></i>
+                    <span class="stat-label">पेंडिंग रिवॉर्ड</span>
+                    <span class="stat-value" id="pendingReward">0 USDT</span>
+                    <button class="btn-small btn-secondary" id="claimAllBtn">क्लेम करें</button>
+                </div>
+                <div class="stat-card premium">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-label">टोटल रेफरल</span>
+                    <span class="stat-value" id="totalReferrals">0</span>
+                </div>
+            </div>
+
+            <!-- Active Stakes -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-history"></i>
+                    <h3>आपके एक्टिव स्टेक</h3>
+                </div>
+                <div class="table-container">
+                    <table id="activeStakesTable">
+                        <thead>
+                            <tr>
+                                <th>पैकेज</th>
+                                <th>अमाउंट</th>
+                                <th>रिवॉर्ड</th>
+                                <th>लॉक खत्म</th>
+                                <th>एक्शन</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stakesBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">कोई स्टेक नहीं</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stake Page -->
+        <div id="stake" class="page-container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-coins"></i>
+                    <h3>नया स्टेक करें</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label>पैकेज चुनें</label>
+                    <select class="form-control" id="stakePackage">
+                        <option value="0">3 महीने - 18% APR</option>
+                        <option value="1">6 महीने - 30% APR</option>
+                        <option value="2">12 महीने - 60% APR</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>अमाउंट (VNT में)</label>
+                    <input type="number" class="form-control" id="stakeAmount" placeholder="कम से कम 100 VNT" min="100">
+                    <small style="color: var(--primary);">मिनिमम: 100 VNT, मैक्सिमम: 10000 VNT</small>
+                </div>
+
+                <div class="form-group">
+                    <label>रेफरल एड्रेस (ऑप्शनल)</label>
+                    <input type="text" class="form-control" id="stakeReferrer" placeholder="0x... रेफरर एड्रेस">
+                </div>
+
+                <button class="btn-primary" id="stakeBtn">
+                    <i class="fas fa-lock"></i> स्टेक करें
+                </button>
+
+                <div class="alert alert-info" style="margin-top: 1rem;">
+                    <i class="fas fa-info-circle"></i>
+                    स्टेक करने से पहले VNT टोकन अप्रूव करना न भूलें!
+                </div>
+            </div>
+
+            <!-- Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-calculator"></i>
+                    <h3>रिवॉर्ड कैलकुलेटर</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label>अमाउंट (VNT)</label>
+                    <input type="number" class="form-control" id="calcAmount" value="1000">
+                </div>
+
+                <div class="form-group">
+                    <label>पैकेज</label>
+                    <select class="form-control" id="calcPackage">
+                        <option value="0">3 महीने (18% APR)</option>
+                        <option value="1">6 महीने (30% APR)</option>
+                        <option value="2">12 महीने (60% APR)</option>
+                    </select>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
+                    <div class="stat-card">
+                        <span class="stat-label">दैनिक रिवॉर्ड</span>
+                        <span class="stat-value" id="calcDaily">0.05 USDT</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">मासिक रिवॉर्ड</span>
+                        <span class="stat-value" id="calcMonthly">1.5 USDT</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">कुल रिवॉर्ड</span>
+                        <span class="stat-value" id="calcTotal">4.5 USDT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packages Page -->
+        <div id="packages" class="page-container">
+            <div class="card-header">
+                <i class="fas fa-box"></i>
+                <h3>स्टेकिंग पैकेज</h3>
+            </div>
+
+            <div class="packages-grid" id="packagesGrid">
+                <!-- Packages will be loaded here -->
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>स्टेकिंग स्टैटिस्टिक्स</h3>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-database"></i>
+                        <span class="stat-value" id="totalStakedStats">0 VNT</span>
+                        <span class="stat-label">कुल स्टेक</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span class="stat-value" id="totalTxStats">0</span>
+                        <span class="stat-label">कुल ट्रांजैक्शन</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-gift"></i>
+                        <span class="stat-value" id="totalRewardsStats">0 USDT</span>
+                        <span class="stat-label">कुल रिवॉर्ड</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referral Page -->
+        <div id="referral" class="page-container">
+            <div class="referral-link-section">
+                <h3><i class="fas fa-link"></i> आपका रेफरल लिंक</h3>
+                <div class="link-box">
+                    <input type="text" id="referralLink" readonly>
+                    <button id="copyLinkBtn"><i class="fas fa-copy"></i> कॉपी करें</button>
+                </div>
+                <p class="link-info">
+                    <i class="fas fa-info-circle"></i>
+                    इस लिंक से जितने भी यूजर जुड़ेंगे, उनके स्टेक पर आपको 5% कमीशन मिलेगा!
+                </p>
+            </div>
+
+            <div class="referral-grid" id="referralGrid">
+                <!-- Level cards will be loaded here -->
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-users"></i>
+                    <h3>आपकी टीम</h3>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>लेवल</th>
+                                <th>यूजर</th>
+                                <th>स्टेक</th>
+                                <th>आपका कमीशन</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teamBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">कोई टीम मेंबर नहीं</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile" class="page-container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>प्रोफाइल इन्फॉर्मेशन</h3>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <i class="fas fa-user-circle" style="font-size: 5rem; color: var(--primary);"></i>
+                    <h3 id="profileAddress">0x...</h3>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(2,1fr);">
+                    <div class="stat-card">
+                        <span class="stat-label">जॉइनिंग डेट</span>
+                        <span class="stat-value" id="joinDate">-</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">आपका लेवल</span>
+                        <span class="stat-value" id="userLevel">1</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">कुल स्टेक</span>
+                        <span class="stat-value" id="profileTotalStake">0 VNT</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">कुल कमाई</span>
+                        <span class="stat-value" id="profileTotalEarned">0 USDT</span>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i>
+                        <h3>स्टेक हिस्ट्री</h3>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>आईडी</th>
+                                    <th>पैकेज</th>
+                                    <th>अमाउंट</th>
+                                    <th>स्टार्ट</th>
+                                    <th>स्टेटस</th>
+                                    <th>एक्शन</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">कोई हिस्ट्री नहीं</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="stakeModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="card-header">
+                <i class="fas fa-gem"></i>
+                <h3>स्टेक डिटेल्स</h3>
+            </div>
+            <div id="modalContent">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">सफल!</span>
+    </div>
+
+    <script>
+        // ========== JavaScript for UI Functionality ==========
+
+        // DOM Elements
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const connectBtn = document.getElementById('connectWallet');
+        const walletInfo = document.getElementById('walletInfo');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const pages = document.querySelectorAll('.page-container');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // State
+        let currentAccount = null;
+        let isConnected = false;
+
+        // ========== Navigation Functions ==========
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        hamburger.addEventListener('click', toggleMobileMenu);
+        menuOverlay.addEventListener('click', toggleMobileMenu);
+
+        // Page Navigation
+        function switchPage(pageId) {
+            // Update desktop nav
+            navLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Update mobile nav
+            mobileNavLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Show selected page
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu if open
+            if (mobileMenu.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+
+            // Load page specific data
+            loadPageData(pageId);
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchPage(link.dataset.page);
+            });
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchPage(link.dataset.page);
+            });
+        });
+
+        // ========== Toast Notification ==========
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            
+            if (type === 'success') {
+                toast.querySelector('i').style.color = '#00ff88';
+            } else if (type === 'error') {
+                toast.querySelector('i').style.color = '#ff4444';
+            } else if (type === 'warning') {
+                toast.querySelector('i').style.color = '#ffaa00';
+            }
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ========== Wallet Connection ==========
+        connectBtn.addEventListener('click', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ 
+                        method: 'eth_requestAccounts' 
+                    });
+                    
+                    currentAccount = accounts[0];
+                    isConnected = true;
+                    
+                    // Update UI
+                    connectBtn.classList.add('hidden');
+                    walletInfo.classList.remove('hidden');
+                    document.getElementById('walletAddress').textContent = 
+                        currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+                    
+                    // Update referral link
+                    document.getElementById('referralLink').value = 
+                        window.location.origin + '?ref=' + currentAccount;
+                    
+                    showToast('वॉलेट कनेक्ट हो गया!');
+                    
+                    // Load user data
+                    loadUserData();
+                    
+                } catch (error) {
+                    showToast('कनेक्शन फेल: ' + error.message, 'error');
+                }
+            } else {
+                showToast('MetaMask इंस्टॉल नहीं है!', 'warning');
+                window.open('https://metamask.io', '_blank');
+            }
+        });
+
+        walletInfo.addEventListener('click', () => {
+            // Show wallet options (disconnect, copy address, etc)
+            if (confirm('वॉलेट डिस्कनेक्ट करें?')) {
+                currentAccount = null;
+                isConnected = false;
+                connectBtn.classList.remove('hidden');
+                walletInfo.classList.add('hidden');
+                showToast('वॉलेट डिस्कनेक्ट हो गया');
+            }
+        });
+
+        // ========== Copy Referral Link ==========
+        document.getElementById('copyLinkBtn').addEventListener('click', () => {
+            const linkInput = document.getElementById('referralLink');
+            linkInput.select();
+            document.execCommand('copy');
+            showToast('रेफरल लिंक कॉपी हो गया!');
+        });
+
+        // ========== Calculator Functions ==========
+        function updateCalculator() {
+            const amount = document.getElementById('calcAmount').value || 1000;
+            const packageId = document.getElementById('calcPackage').value;
+            
+            let daily, monthly, total;
+            const usdtValue = amount * 0.1; // 1 VNT = 0.10 USDT
+            
+            if (packageId === '0') { // 3 months, 18%
+                daily = (usdtValue * 0.18 / 365).toFixed(4);
+                monthly = (usdtValue * 0.18 / 12).toFixed(2);
+                total = (usdtValue * 0.18 * 0.25).toFixed(2); // 3 months = 0.25 year
+            } else if (packageId === '1') { // 6 months, 30%
+                daily = (usdtValue * 0.3 / 365).toFixed(4);
+                monthly = (usdtValue * 0.3 / 12).toFixed(2);
+                total = (usdtValue * 0.3 * 0.5).toFixed(2); // 6 months = 0.5 year
+            } else { // 12 months, 60%
+                daily = (usdtValue * 0.6 / 365).toFixed(4);
+                monthly = (usdtValue * 0.6 / 12).toFixed(2);
+                total = (usdtValue * 0.6).toFixed(2);
+            }
+            
+            document.getElementById('calcDaily').textContent = daily + ' USDT';
+            document.getElementById('calcMonthly').textContent = monthly + ' USDT';
+            document.getElementById('calcTotal').textContent = total + ' USDT';
+        }
+
+        document.getElementById('calcAmount').addEventListener('input', updateCalculator);
+        document.getElementById('calcPackage').addEventListener('change', updateCalculator);
+
+        // ========== Load Packages ==========
+        function loadPackages() {
+            const packagesGrid = document.getElementById('packagesGrid');
+            packagesGrid.innerHTML = '';
+            
+            const packages = [
+                { name: 'डायमंड 3', months: 3, apr: 18, color: 'level-1' },
+                { name: 'डायमंड 6', months: 6, apr: 30, color: 'level-2' },
+                { name: 'डायमंड 12', months: 12, apr: 60, color: 'level-3' }
+            ];
+            
+            packages.forEach((pkg, index) => {
+                const card = document.createElement('div');
+                card.className = `package-card ${pkg.color}`;
+                card.innerHTML = `
+                    <div class="package-header">
+                        <h3>${pkg.name}</h3>
+                        <div class="package-apr">${pkg.apr}% APR</div>
+                        <div class="package-duration">${pkg.months} महीने</div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check-circle"></i> USDT में रिवॉर्ड</li>
+                        <li><i class="fas fa-check-circle"></i> कोई लॉकिंग फीस नहीं</li>
+                        <li><i class="fas fa-check-circle"></i> कभी भी क्लेम करें</li>
+                    </ul>
+                    <button class="btn-primary" onclick="switchPage('stake')">
+                        स्टेक करें
+                    </button>
+                `;
+                packagesGrid.appendChild(card);
+            });
+        }
+
+        // ========== Load Referral Levels ==========
+        function loadReferralLevels() {
+            const referralGrid = document.getElementById('referralGrid');
+            referralGrid.innerHTML = '';
+            
+            const levels = [
+                { level: 1, percent: 5, color: 'level-1', required: '2 डायरेक्ट' },
+                { level: 2, percent: 3, color: 'level-2', required: '4 टीम' },
+                { level: 3, percent: 2, color: 'level-3', required: '8 टीम' },
+                { level: 4, percent: 1, color: 'level-4', required: '16 टीम' },
+                { level: 5, percent: 1, color: 'level-5', required: '32 टीम' }
+            ];
+            
+            levels.forEach(level => {
+                const card = document.createElement('div');
+                card.className = `level-card ${level.color}`;
+                card.innerHTML = `
+                    <div class="level-header ${level.color}">
+                        <div class="level-badge">लेवल ${level.level}</div>
+                        <span class="level-reward">${level.percent}% कमीशन</span>
+                    </div>
+                    <div class="level-body">
+                        <div class="level-stats">
+                            <i class="fas fa-users"></i>
+                            <span>चाहिए: ${level.required}</span>
+                        </div>
+                        <div class="level-earnings">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>आपकी कमाई: 0 USDT</span>
+                        </div>
+                        <button class="view-level-btn" onclick="showLevelDetails(${level.level})">
+                            डिटेल देखें <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                referralGrid.appendChild(card);
+            });
+        }
+
+        // ========== Load User Data (Mock) ==========
+        function loadUserData() {
+            if (!isConnected) return;
+            
+            // Mock data
+            document.getElementById('userStake').textContent = '2500 VNT';
+            document.getElementById('pendingReward').textContent = '125.50 USDT';
+            document.getElementById('totalReferrals').textContent = '12';
+            
+            // Update stakes table
+            const stakesBody = document.getElementById('stakesBody');
+            stakesBody.innerHTML = `
+                <tr>
+                    <td>डायमंड 12</td>
+                    <td>1000 VNT</td>
+                    <td>45.50 USDT</td>
+                    <td>31 दिसंबर 2026</td>
+                    <td><button class="btn-small btn-secondary" onclick="claimStake(1)">क्लेम</button></td>
+                </tr>
+                <tr>
+                    <td>डायमंड 6</td>
+                    <td>1500 VNT</td>
+                    <td>32.80 USDT</td>
+                    <td>30 जून 2026</td>
+                    <td><button class="btn-small btn-secondary" onclick="claimStake(2)">क्लेम</button></td>
+                </tr>
+            `;
+        }
+
+        // ========== Load Page Data ==========
+        function loadPageData(pageId) {
+            if (!isConnected && pageId !== 'dashboard') {
+                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
+                switchPage('dashboard');
+                return;
+            }
+            
+            switch(pageId) {
+                case 'dashboard':
+                    if (isConnected) loadUserData();
+                    break;
+                case 'packages':
+                    loadPackages();
+                    break;
+                case 'referral':
+                    loadReferralLevels();
+                    break;
+                case 'profile':
+                    // Load profile data
+                    break;
+            }
+        }
+
+        // ========== Initialize ==========
+        window.addEventListener('load', () => {
+            loadPackages();
+            loadReferralLevels();
+            updateCalculator();
+            
+            // Check if MetaMask is already connected
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+                    if (accounts.length > 0) {
+                        currentAccount = accounts[0];
+                        isConnected = true;
+                        connectBtn.classList.add('hidden');
+                        walletInfo.classList.remove('hidden');
+                        document.getElementById('walletAddress').textContent = 
+                            currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+                        document.getElementById('referralLink').value = 
+                            window.location.origin + '?ref=' + currentAccount;
+                    }
+                });
+            }
+        });
+
+        // ========== Mock Functions for Demo ==========
+        function showLevelDetails(level) {
+            showToast(`लेवल ${level} की डिटेल जल्द आ रही है!`, 'info');
+        }
+
+        function claimStake(stakeId) {
+            showToast(`स्टेक #${stakeId} का रिवॉर्ड क्लेम किया जा रहा है...`, 'info');
+        }
+
+        document.getElementById('claimAllBtn').addEventListener('click', () => {
+            showToast('सभी रिवॉर्ड क्लेम किए जा रहे हैं...', 'info');
+        });
+
+        document.getElementById('stakeBtn').addEventListener('click', () => {
+            if (!isConnected) {
+                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
+                return;
+            }
+            showToast('स्टेकिंग प्रोसेस शुरू... अप्रूव ट्रांजैक्शन साइन करें', 'info');
+        });
+
+        document.getElementById('activateBtn').addEventListener('click', () => {
+            const referrer = document.getElementById('referrerAddress').value;
+            if (!referrer) {
+                showToast('रेफरर एड्रेस डालें!', 'warning');
+                return;
+            }
+            showToast('रेफरल एक्टिवेट हो गया! अब स्टेक कर सकते हैं', 'success');
+        });
+
+        // Handle MetaMask account changes
+        if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    // Disconnected
+                    currentAccount = null;
+                    isConnected = false;
+                    connectBtn.classList.remove('hidden');
+                    walletInfo.classList.add('hidden');
+                    showToast('वॉलेट डिस्कनेक्ट हो गया');
+                } else {
+                    // Switched account
+                    currentAccount = accounts[0];
+                    document.getElementById('walletAddress').textContent = 
+                        currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+                    document.getElementById('referralLink').value = 
+                        window.location.origin + '?ref=' + currentAccount;
+                    showToast('अकाउंट स्विच हुआ');
+                    loadUserData();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
