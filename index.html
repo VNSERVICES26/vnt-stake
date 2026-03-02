@@ -845,6 +845,197 @@
             font-size: 0.8rem;
             margin-left: 0.5rem;
         }
+
+        /* ========== मोबाइल फ्रेंडली फिक्स ========== */
+
+/* मोबाइल स्क्रीन के लिए स्पेशल स्टाइल */
+@media (max-width: 768px) {
+    
+    /* कैलकुलेटर के बॉक्स को एक के नीचे एक करें */
+    .stats-grid[style*="grid-template-columns: repeat(3,1fr)"] {
+        grid-template-columns: 1fr !important;  /* एक कॉलम में बदलें */
+        gap: 1rem !important;
+    }
+    
+    /* कैलकुलेटर के बॉक्स का साइज ठीक करें */
+    .stats-grid[style*="grid-template-columns: repeat(3,1fr)"] .stat-card {
+        padding: 1.5rem !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* स्टेक पेज के फॉर्म को फुल चौड़ाई दें */
+    #stake .card {
+        padding: 1.5rem !important;
+        margin: 1rem 0 !important;
+    }
+    
+    /* अमाउंट इनपुट और USD डिस्प्ले को ठीक करें */
+    #stake .form-group {
+        margin: 1rem 0 !important;
+    }
+    
+    /* बटन को एक के नीचे एक करें */
+    #stake [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    /* अप्रूव और स्टेक बटन को फुल चौड़ाई दें */
+    #stake .btn-secondary,
+    #stake .btn-primary {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* स्टेक अमाउंट के नीचे मिन और USD वैल्यू को एडजस्ट करें */
+    #stake .form-group + div {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+    }
+    
+    /* कैलकुलेटर इनपुट को फुल चौड़ाई दें */
+    #calcAmount, #calcPackage {
+        width: 100% !important;
+    }
+    
+    /* स्टेक पेज पर सभी कार्ड्स को ठीक करें */
+    #stake .card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* डैशबोर्ड के स्टैट्स कार्ड्स को एक के नीचे एक करें */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    /* हीरो स्टैट्स को एक के नीचे एक करें */
+    .hero-stats {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .hero-stats .stat-card {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* टेबल को स्क्रॉल करने योग्य बनाएं */
+    .table-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* टेबल की चौड़ाई फिक्स करें */
+    table {
+        min-width: 600px !important; /* टेबल को स्क्रॉल करने की सुविधा */
+    }
+    
+    /* फॉन्ट साइज को छोटा करें */
+    .glowing-text {
+        font-size: 2rem !important;
+    }
+    
+    .gradient-text {
+        font-size: 1.2rem !important;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem !important;
+    }
+    
+    /* पैकेज कार्ड्स को एक के नीचे एक करें */
+    .packages-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+    
+    /* मोबाइल मेनू को ठीक करें */
+    .mobile-menu {
+        width: 80% !important;
+        padding: 80px 1.5rem 2rem !important;
+    }
+    
+    .mobile-menu a {
+        font-size: 1.1rem !important;
+        padding: 0.8rem !important;
+    }
+    
+    /* वॉलेट बटन को छोटा करें */
+    .connect-wallet-btn {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .wallet-info {
+        padding: 0.4rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* मोडल को मोबाइल फ्रेंडली बनाएं */
+    .modal-content {
+        width: 95% !important;
+        padding: 1.5rem !important;
+        margin: 1rem !important;
+    }
+    
+    /* टोस्ट नोटिफिकेशन को एडजस्ट करें */
+    .toast {
+        bottom: 1rem !important;
+        right: 1rem !important;
+        left: 1rem !important;
+        width: auto !important;
+        padding: 0.8rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* बहुत छोटी स्क्रीन के लिए (300px से कम) */
+@media (max-width: 400px) {
+    .glowing-text {
+        font-size: 1.5rem !important;
+    }
+    
+    .gradient-text {
+        font-size: 1rem !important;
+    }
+    
+    .card {
+        padding: 1rem !important;
+    }
+    
+    .card-header h3 {
+        font-size: 1.2rem !important;
+    }
+    
+    .card-header i {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-card {
+        padding: 1rem !important;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem !important;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 0.8rem 1rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .form-control {
+        padding: 0.8rem !important;
+    }
+}
     </style>
 </head>
 <body>
