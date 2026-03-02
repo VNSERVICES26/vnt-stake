@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VNT Staking - डायमंड स्टेकिंग प्लेटफॉर्म</title>
+    <title>VNT स्टेकिंग - डायमंड स्टेकिंग प्लेटफॉर्म</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* ========== आपका दिया हुआ CSS यहाँ ========== */
+        /* ========== आपका दिया हुआ CSS (वही रहेगा) ========== */
         * {
             margin: 0;
             padding: 0;
@@ -388,6 +388,30 @@
             border-color: var(--primary);
         }
 
+        .activation-card {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-image-slice: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
         /* Packages Grid */
         .packages-grid {
             display: grid;
@@ -450,6 +474,35 @@
 
         .package-features i {
             color: var(--success);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card.premium {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin: 1rem 0 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem !important;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--diamond), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Forms */
@@ -530,6 +583,15 @@
             transform: translateX(5px);
         }
 
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
         /* Tables */
         .table-container {
             overflow-x: auto;
@@ -584,6 +646,12 @@
             background: rgba(255,68,68,0.1);
             border: 1px solid var(--danger);
             color: var(--danger);
+        }
+
+        .alert-info {
+            background: rgba(0,255,255,0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
         }
 
         /* Modal */
@@ -769,66 +837,13 @@
             background: linear-gradient(135deg, var(--secondary), var(--primary));
         }
 
-        /* Referral Input Styling (बड़ा किया हुआ) */
-        .activation-card {
-            max-width: 500px !important;
-            margin: 0 auto !important;
-            padding: 30px 25px !important;
-            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-image-slice: 1;
-            border-radius: 30px;
-        }
-
-        .referral-input {
-            margin: 20px 0 25px 0 !important;
-            width: 100% !important;
-        }
-
-        .referral-input label {
-            display: block !important;
-            font-size: 18px !important;
-            font-weight: 600 !important;
-            margin-bottom: 12px !important;
-            color: #00ffff !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
-        }
-
-        #referrerAddress {
-            width: 100% !important;
-            padding: 20px 25px !important;
-            font-size: 18px !important;
-            border: 3px solid #00ffff !important;
-            border-radius: 15px !important;
-            background: rgba(0, 0, 0, 0.7) !important;
-            color: white !important;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3) !important;
-            transition: all 0.3s ease !important;
-            box-sizing: border-box !important;
-        }
-
-        #referrerAddress:focus {
-            box-shadow: 0 0 30px #ff00ff !important;
-            border-color: #ff00ff !important;
-            outline: none !important;
-            transform: scale(1.02) !important;
-            background: rgba(0, 0, 0, 0.9) !important;
-        }
-
-        #referrerAddress::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-            font-size: 16px !important;
-        }
-
-        #activateBtn {
-            padding: 18px 30px !important;
-            font-size: 20px !important;
-            font-weight: 700 !important;
-            margin-top: 15px !important;
-            border-radius: 60px !important;
-            letter-spacing: 1px !important;
+        /* VNT प्राइस डिस्प्ले */
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
         }
     </style>
 </head>
@@ -844,7 +859,7 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-gem"></i>
-                <span>VNT STAKING</span>
+                <span>VNT स्टेकिंग</span>
             </div>
 
             <!-- Desktop Navigation -->
@@ -852,8 +867,7 @@
                 <a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-home"></i> डैशबोर्ड</a>
                 <a href="#" class="nav-link" data-page="stake"><i class="fas fa-coins"></i> स्टेक करें</a>
                 <a href="#" class="nav-link" data-page="packages"><i class="fas fa-box"></i> पैकेज</a>
-                <a href="#" class="nav-link" data-page="referral"><i class="fas fa-users"></i> रेफरल</a>
-                <a href="#" class="nav-link" data-page="profile"><i class="fas fa-user"></i> प्रोफाइल</a>
+                <a href="#" class="nav-link" data-page="my-stakes"><i class="fas fa-history"></i> मेरे स्टेक</a>
             </div>
 
             <!-- Hamburger Menu for Mobile -->
@@ -889,11 +903,8 @@
         <a href="#" class="mobile-nav-link" data-page="packages">
             <i class="fas fa-box"></i> पैकेज
         </a>
-        <a href="#" class="mobile-nav-link" data-page="referral">
-            <i class="fas fa-users"></i> रेफरल
-        </a>
-        <a href="#" class="mobile-nav-link" data-page="profile">
-            <i class="fas fa-user"></i> प्रोफाइल
+        <a href="#" class="mobile-nav-link" data-page="my-stakes">
+            <i class="fas fa-history"></i> मेरे स्टेक
         </a>
     </div>
     <div class="mobile-menu-overlay" id="menuOverlay"></div>
@@ -904,95 +915,94 @@
         <div id="dashboard" class="page-container active">
             <!-- Hero Section -->
             <div class="hero-section">
-                <h1 class="glowing-text">VNT STAKING</h1>
-                <h2 class="gradient-text">डायमंड लेवल रिवॉर्ड्स के साथ स्टेक करें</h2>
+                <h1 class="glowing-text">VNT स्टेकिंग</h1>
+                <h2 class="gradient-text">USDT में शानदार रिवॉर्ड पाएं</h2>
+                
+                <!-- VNT Price Display -->
+                <div style="margin-bottom: 2rem;">
+                    <span class="stat-card" style="display: inline-block; padding: 0.5rem 2rem;">
+                        <i class="fas fa-chart-line"></i>
+                        1 VNT = 0.10 USDT <span class="price-tag">फिक्स्ड</span>
+                    </span>
+                </div>
                 
                 <!-- Hero Stats -->
                 <div class="hero-stats">
                     <div class="stat-card diamond">
-                        <i class="fas fa-gem"></i>
+                        <i class="fas fa-database"></i>
                         <span id="totalStaked">0</span>
-                        <p>कुल स्टेक</p>
-                        <small class="stat-small">≈ $0</small>
+                        <p>कुल स्टेक्ड VNT</p>
+                        <small class="stat-small" id="totalStakedUSD">$0</small>
                     </div>
                     <div class="stat-card">
-                        <i class="fas fa-users"></i>
-                        <span id="totalUsers">0</span>
-                        <p>कुल यूजर्स</p>
+                        <i class="fas fa-box"></i>
+                        <span id="totalPackages">3</span>
+                        <p>कुल पैकेज</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-percent"></i>
-                        <span id="avgApr">60%</span>
-                        <p>औसत APR</p>
+                        <span id="maxApr">60%</span>
+                        <p>मैक्सिमम APR</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Activation Card (Referral) -->
-            <div class="activation-card card">
-                <div class="card-header">
-                    <i class="fas fa-gem"></i>
-                    <h3>अपना रेफरल एक्टिवेट करें</h3>
-                </div>
-                <div class="referral-input">
-                    <label for="referrerAddress">
-                        <i class="fas fa-user-plus"></i> रेफरर एड्रेस (जरूरी)
-                    </label>
-                    <input type="text" id="referrerAddress" placeholder="0x... रेफरर का वॉलेट एड्रेस डालें">
-                </div>
-                <button class="btn-primary" id="activateBtn">
-                    <i class="fas fa-rocket"></i> एक्टिवेट करें और स्टेक शुरू करें
-                </button>
-                <p class="link-info" style="margin-top: 1rem;">
-                    <i class="fas fa-info-circle"></i>
-                    रेफरल एक्टिवेट करने के बाद आपको हर स्टेक पर 5% अतिरिक्त रिवॉर्ड मिलेगा!
-                </p>
-            </div>
-
-            <!-- Stats Grid -->
+            <!-- Quick Stats -->
             <div class="stats-grid">
                 <div class="stat-card premium">
                     <i class="fas fa-coins"></i>
                     <span class="stat-label">आपका स्टेक</span>
                     <span class="stat-value" id="userStake">0 VNT</span>
-                    <span class="stat-small">≈ $0</span>
+                    <span class="stat-small" id="userStakeUSD">$0</span>
                 </div>
                 <div class="stat-card premium">
                     <i class="fas fa-gift"></i>
                     <span class="stat-label">पेंडिंग रिवॉर्ड</span>
                     <span class="stat-value" id="pendingReward">0 USDT</span>
-                    <button class="btn-small btn-secondary" id="claimAllBtn">क्लेम करें</button>
+                    <button class="btn-small btn-secondary" id="claimAllBtn">
+                        <i class="fas fa-hand-holding-usd"></i> सभी क्लेम करें
+                    </button>
                 </div>
                 <div class="stat-card premium">
-                    <i class="fas fa-users"></i>
-                    <span class="stat-label">टोटल रेफरल</span>
-                    <span class="stat-value" id="totalReferrals">0</span>
+                    <i class="fas fa-check-circle"></i>
+                    <span class="stat-label">एक्टिव स्टेक</span>
+                    <span class="stat-value" id="activeStakesCount">0</span>
                 </div>
             </div>
 
-            <!-- Active Stakes -->
+            <!-- Active Stakes Preview -->
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-history"></i>
                     <h3>आपके एक्टिव स्टेक</h3>
+                    <a href="#" onclick="switchPage('my-stakes')" style="margin-left: auto; color: var(--primary);">सभी देखें →</a>
                 </div>
                 <div class="table-container">
                     <table id="activeStakesTable">
                         <thead>
                             <tr>
                                 <th>पैकेज</th>
-                                <th>अमाउंट</th>
-                                <th>रिवॉर्ड</th>
+                                <th>अमाउंट (VNT)</th>
+                                <th>वैल्यू (USDT)</th>
+                                <th>पेंडिंग रिवॉर्ड</th>
                                 <th>लॉक खत्म</th>
                                 <th>एक्शन</th>
                             </tr>
                         </thead>
-                        <tbody id="stakesBody">
+                        <tbody id="stakesPreviewBody">
                             <tr>
-                                <td colspan="5" style="text-align: center;">कोई स्टेक नहीं</td>
+                                <td colspan="6" style="text-align: center;">कोई एक्टिव स्टेक नहीं</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>जानकारी:</strong> स्टेक करने के लिए पहले VNT टोकन अप्रूव करना जरूरी है। रिवॉर्ड सीधे USDT में मिलेंगे।
                 </div>
             </div>
         </div>
@@ -1016,22 +1026,25 @@
 
                 <div class="form-group">
                     <label>अमाउंट (VNT में)</label>
-                    <input type="number" class="form-control" id="stakeAmount" placeholder="कम से कम 100 VNT" min="100">
-                    <small style="color: var(--primary);">मिनिमम: 100 VNT, मैक्सिमम: 10000 VNT</small>
+                    <input type="number" class="form-control" id="stakeAmount" placeholder="कम से कम 100 VNT" min="100" step="1">
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <small style="color: var(--primary);">मिन: 100 VNT</small>
+                        <small style="color: var(--primary);">वैल्यू: <span id="amountUSD">0</span> USDT</small>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>रेफरल एड्रेस (ऑप्शनल)</label>
-                    <input type="text" class="form-control" id="stakeReferrer" placeholder="0x... रेफरर एड्रेस">
+                <div class="alert alert-warning" style="margin: 1rem 0;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>स्टेक करने से पहले VNT टोकन अप्रूव करना न भूलें!</span>
                 </div>
 
-                <button class="btn-primary" id="stakeBtn">
-                    <i class="fas fa-lock"></i> स्टेक करें
-                </button>
-
-                <div class="alert alert-info" style="margin-top: 1rem;">
-                    <i class="fas fa-info-circle"></i>
-                    स्टेक करने से पहले VNT टोकन अप्रूव करना न भूलें!
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <button class="btn-secondary" id="approveBtn">
+                        <i class="fas fa-check-circle"></i> अप्रूव करें
+                    </button>
+                    <button class="btn-primary" id="stakeBtn">
+                        <i class="fas fa-lock"></i> स्टेक करें
+                    </button>
                 </div>
             </div>
 
@@ -1044,7 +1057,7 @@
                 
                 <div class="form-group">
                     <label>अमाउंट (VNT)</label>
-                    <input type="number" class="form-control" id="calcAmount" value="1000">
+                    <input type="number" class="form-control" id="calcAmount" value="1000" min="100">
                 </div>
 
                 <div class="form-group">
@@ -1057,17 +1070,20 @@
                 </div>
 
                 <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
-                    <div class="stat-card">
-                        <span class="stat-label">दैनिक रिवॉर्ड</span>
-                        <span class="stat-value" id="calcDaily">0.05 USDT</span>
+                    <div class="stat-card" style="padding: 1rem;">
+                        <span class="stat-label">दैनिक</span>
+                        <span class="stat-value" id="calcDaily">0.05</span>
+                        <small>USDT</small>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-label">मासिक रिवॉर्ड</span>
-                        <span class="stat-value" id="calcMonthly">1.5 USDT</span>
+                    <div class="stat-card" style="padding: 1rem;">
+                        <span class="stat-label">मासिक</span>
+                        <span class="stat-value" id="calcMonthly">1.5</span>
+                        <small>USDT</small>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-label">कुल रिवॉर्ड</span>
-                        <span class="stat-value" id="calcTotal">4.5 USDT</span>
+                    <div class="stat-card" style="padding: 1rem;">
+                        <span class="stat-label">कुल</span>
+                        <span class="stat-value" id="calcTotal">4.5</span>
+                        <small>USDT</small>
                     </div>
                 </div>
             </div>
@@ -1083,128 +1099,67 @@
             <div class="packages-grid" id="packagesGrid">
                 <!-- Packages will be loaded here -->
             </div>
-
-            <div class="card" style="margin-top: 2rem;">
-                <div class="card-header">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>स्टेकिंग स्टैटिस्टिक्स</h3>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fas fa-database"></i>
-                        <span class="stat-value" id="totalStakedStats">0 VNT</span>
-                        <span class="stat-label">कुल स्टेक</span>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-exchange-alt"></i>
-                        <span class="stat-value" id="totalTxStats">0</span>
-                        <span class="stat-label">कुल ट्रांजैक्शन</span>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-gift"></i>
-                        <span class="stat-value" id="totalRewardsStats">0 USDT</span>
-                        <span class="stat-label">कुल रिवॉर्ड</span>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- Referral Page -->
-        <div id="referral" class="page-container">
-            <div class="referral-link-section">
-                <h3><i class="fas fa-link"></i> आपका रेफरल लिंक</h3>
-                <div class="link-box">
-                    <input type="text" id="referralLink" readonly>
-                    <button id="copyLinkBtn"><i class="fas fa-copy"></i> कॉपी करें</button>
-                </div>
-                <p class="link-info">
-                    <i class="fas fa-info-circle"></i>
-                    इस लिंक से जितने भी यूजर जुड़ेंगे, उनके स्टेक पर आपको 5% कमीशन मिलेगा!
-                </p>
-            </div>
-
-            <div class="referral-grid" id="referralGrid">
-                <!-- Level cards will be loaded here -->
-            </div>
-
+        <!-- My Stakes Page -->
+        <div id="my-stakes" class="page-container">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-users"></i>
-                    <h3>आपकी टीम</h3>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>लेवल</th>
-                                <th>यूजर</th>
-                                <th>स्टेक</th>
-                                <th>आपका कमीशन</th>
-                            </tr>
-                        </thead>
-                        <tbody id="teamBody">
-                            <tr>
-                                <td colspan="4" style="text-align: center;">कोई टीम मेंबर नहीं</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profile Page -->
-        <div id="profile" class="page-container">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-user-circle"></i>
-                    <h3>प्रोफाइल इन्फॉर्मेशन</h3>
+                    <i class="fas fa-history"></i>
+                    <h3>मेरे स्टेक</h3>
                 </div>
 
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <i class="fas fa-user-circle" style="font-size: 5rem; color: var(--primary);"></i>
-                    <h3 id="profileAddress">0x...</h3>
-                </div>
-
-                <div class="stats-grid" style="grid-template-columns: repeat(2,1fr);">
-                    <div class="stat-card">
-                        <span class="stat-label">जॉइनिंग डेट</span>
-                        <span class="stat-value" id="joinDate">-</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">आपका लेवल</span>
-                        <span class="stat-value" id="userLevel">1</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">कुल स्टेक</span>
-                        <span class="stat-value" id="profileTotalStake">0 VNT</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">कुल कमाई</span>
-                        <span class="stat-value" id="profileTotalEarned">0 USDT</span>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top: 1rem;">
+                <!-- Active Stakes -->
+                <div class="card" style="margin: 1rem 0;">
                     <div class="card-header">
-                        <i class="fas fa-history"></i>
-                        <h3>स्टेक हिस्ट्री</h3>
+                        <i class="fas fa-play-circle"></i>
+                        <h4>एक्टिव स्टेक</h4>
                     </div>
                     <div class="table-container">
-                        <table>
+                        <table id="activeStakesFullTable">
                             <thead>
                                 <tr>
                                     <th>आईडी</th>
                                     <th>पैकेज</th>
-                                    <th>अमाउंट</th>
+                                    <th>अमाउंट (VNT)</th>
+                                    <th>वैल्यू (USDT)</th>
+                                    <th>पेंडिंग रिवॉर्ड</th>
                                     <th>स्टार्ट</th>
-                                    <th>स्टेटस</th>
+                                    <th>लॉक खत्म</th>
+                                    <th>क्लेम किया</th>
                                     <th>एक्शन</th>
                                 </tr>
                             </thead>
-                            <tbody id="historyBody">
+                            <tbody id="activeStakesBody">
                                 <tr>
-                                    <td colspan="6" style="text-align: center;">कोई हिस्ट्री नहीं</td>
+                                    <td colspan="9" style="text-align: center;">कोई एक्टिव स्टेक नहीं</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Released/Inactive Stakes -->
+                <div class="card" style="margin: 1rem 0;">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>रिलीज्ड स्टेक</h4>
+                    </div>
+                    <div class="table-container">
+                        <table id="inactiveStakesTable">
+                            <thead>
+                                <tr>
+                                    <th>आईडी</th>
+                                    <th>पैकेज</th>
+                                    <th>अमाउंट (VNT)</th>
+                                    <th>कुल रिवॉर्ड</th>
+                                    <th>स्टार्ट</th>
+                                    <th>एंड</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inactiveStakesBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">कोई रिलीज्ड स्टेक नहीं</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1235,7 +1190,7 @@
     </div>
 
     <script>
-        // ========== JavaScript for UI Functionality ==========
+        // ========== JavaScript for VNTStaking Contract ==========
 
         // DOM Elements
         const hamburger = document.getElementById('hamburger');
@@ -1252,10 +1207,14 @@
         // State
         let currentAccount = null;
         let isConnected = false;
+        let contract = null;
+
+        // Contract Details (आपको डिप्लॉय के बाद ये बदलने होंगे)
+        const contractAddress = "0xYourContractAddressHere"; // TODO: डिप्लॉय के बाद बदलें
+        const contractABI = []; // TODO: कॉन्ट्रैक्ट ABI यहाँ डालें
 
         // ========== Navigation Functions ==========
 
-        // Toggle Mobile Menu
         function toggleMobileMenu() {
             hamburger.classList.toggle('active');
             mobileMenu.classList.toggle('active');
@@ -1266,7 +1225,6 @@
         hamburger.addEventListener('click', toggleMobileMenu);
         menuOverlay.addEventListener('click', toggleMobileMenu);
 
-        // Page Navigation
         function switchPage(pageId) {
             // Update desktop nav
             navLinks.forEach(link => {
@@ -1301,7 +1259,9 @@
             }
 
             // Load page specific data
-            loadPageData(pageId);
+            if (isConnected) {
+                loadPageData(pageId);
+            }
         }
 
         navLinks.forEach(link => {
@@ -1329,6 +1289,8 @@
                 toast.querySelector('i').style.color = '#ff4444';
             } else if (type === 'warning') {
                 toast.querySelector('i').style.color = '#ffaa00';
+            } else if (type === 'info') {
+                toast.querySelector('i').style.color = '#00ffff';
             }
             
             setTimeout(() => {
@@ -1353,11 +1315,13 @@
                     document.getElementById('walletAddress').textContent = 
                         currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
                     
-                    // Update referral link
-                    document.getElementById('referralLink').value = 
-                        window.location.origin + '?ref=' + currentAccount;
-                    
                     showToast('वॉलेट कनेक्ट हो गया!');
+                    
+                    // Initialize contract
+                    if (window.ethereum && contractAddress !== "0xYourContractAddressHere") {
+                        const web3 = new Web3(window.ethereum);
+                        contract = new web3.eth.Contract(contractABI, contractAddress);
+                    }
                     
                     // Load user data
                     loadUserData();
@@ -1372,7 +1336,6 @@
         });
 
         walletInfo.addEventListener('click', () => {
-            // Show wallet options (disconnect, copy address, etc)
             if (confirm('वॉलेट डिस्कनेक्ट करें?')) {
                 currentAccount = null;
                 isConnected = false;
@@ -1382,43 +1345,42 @@
             }
         });
 
-        // ========== Copy Referral Link ==========
-        document.getElementById('copyLinkBtn').addEventListener('click', () => {
-            const linkInput = document.getElementById('referralLink');
-            linkInput.select();
-            document.execCommand('copy');
-            showToast('रेफरल लिंक कॉपी हो गया!');
-        });
-
         // ========== Calculator Functions ==========
         function updateCalculator() {
-            const amount = document.getElementById('calcAmount').value || 1000;
+            const amount = parseFloat(document.getElementById('calcAmount').value) || 1000;
             const packageId = document.getElementById('calcPackage').value;
             
-            let daily, monthly, total;
             const usdtValue = amount * 0.1; // 1 VNT = 0.10 USDT
+            
+            let daily, monthly, total;
             
             if (packageId === '0') { // 3 months, 18%
                 daily = (usdtValue * 0.18 / 365).toFixed(4);
                 monthly = (usdtValue * 0.18 / 12).toFixed(2);
-                total = (usdtValue * 0.18 * 0.25).toFixed(2); // 3 months = 0.25 year
+                total = (usdtValue * 0.18 * 0.25).toFixed(2);
             } else if (packageId === '1') { // 6 months, 30%
                 daily = (usdtValue * 0.3 / 365).toFixed(4);
                 monthly = (usdtValue * 0.3 / 12).toFixed(2);
-                total = (usdtValue * 0.3 * 0.5).toFixed(2); // 6 months = 0.5 year
+                total = (usdtValue * 0.3 * 0.5).toFixed(2);
             } else { // 12 months, 60%
                 daily = (usdtValue * 0.6 / 365).toFixed(4);
                 monthly = (usdtValue * 0.6 / 12).toFixed(2);
                 total = (usdtValue * 0.6).toFixed(2);
             }
             
-            document.getElementById('calcDaily').textContent = daily + ' USDT';
-            document.getElementById('calcMonthly').textContent = monthly + ' USDT';
-            document.getElementById('calcTotal').textContent = total + ' USDT';
+            document.getElementById('calcDaily').textContent = daily;
+            document.getElementById('calcMonthly').textContent = monthly;
+            document.getElementById('calcTotal').textContent = total;
         }
 
         document.getElementById('calcAmount').addEventListener('input', updateCalculator);
         document.getElementById('calcPackage').addEventListener('change', updateCalculator);
+
+        // Amount to USD converter
+        document.getElementById('stakeAmount').addEventListener('input', function(e) {
+            const amount = parseFloat(e.target.value) || 0;
+            document.getElementById('amountUSD').textContent = (amount * 0.1).toFixed(2);
+        });
 
         // ========== Load Packages ==========
         function loadPackages() {
@@ -1426,20 +1388,21 @@
             packagesGrid.innerHTML = '';
             
             const packages = [
-                { name: 'डायमंड 3', months: 3, apr: 18, color: 'level-1' },
-                { name: 'डायमंड 6', months: 6, apr: 30, color: 'level-2' },
-                { name: 'डायमंड 12', months: 12, apr: 60, color: 'level-3' }
+                { name: 'डायमंड 3', months: 3, apr: 18, desc: 'शॉर्ट टर्म स्टेकिंग' },
+                { name: 'डायमंड 6', months: 6, apr: 30, desc: 'मीडियम टर्म स्टेकिंग' },
+                { name: 'डायमंड 12', months: 12, apr: 60, desc: 'लॉन्ग टर्म स्टेकिंग' }
             ];
             
             packages.forEach((pkg, index) => {
                 const card = document.createElement('div');
-                card.className = `package-card ${pkg.color}`;
+                card.className = 'package-card';
                 card.innerHTML = `
                     <div class="package-header">
                         <h3>${pkg.name}</h3>
                         <div class="package-apr">${pkg.apr}% APR</div>
                         <div class="package-duration">${pkg.months} महीने</div>
                     </div>
+                    <p style="margin: 1rem 0; color: var(--diamond);">${pkg.desc}</p>
                     <ul class="package-features">
                         <li><i class="fas fa-check-circle"></i> USDT में रिवॉर्ड</li>
                         <li><i class="fas fa-check-circle"></i> कोई लॉकिंग फीस नहीं</li>
@@ -1451,84 +1414,57 @@
                 `;
                 packagesGrid.appendChild(card);
             });
+            
+            document.getElementById('totalPackages').textContent = packages.length;
         }
 
-        // ========== Load Referral Levels ==========
-        function loadReferralLevels() {
-            const referralGrid = document.getElementById('referralGrid');
-            referralGrid.innerHTML = '';
-            
-            const levels = [
-                { level: 1, percent: 5, color: 'level-1', required: '2 डायरेक्ट' },
-                { level: 2, percent: 3, color: 'level-2', required: '4 टीम' },
-                { level: 3, percent: 2, color: 'level-3', required: '8 टीम' },
-                { level: 4, percent: 1, color: 'level-4', required: '16 टीम' },
-                { level: 5, percent: 1, color: 'level-5', required: '32 टीम' }
-            ];
-            
-            levels.forEach(level => {
-                const card = document.createElement('div');
-                card.className = `level-card ${level.color}`;
-                card.innerHTML = `
-                    <div class="level-header ${level.color}">
-                        <div class="level-badge">लेवल ${level.level}</div>
-                        <span class="level-reward">${level.percent}% कमीशन</span>
-                    </div>
-                    <div class="level-body">
-                        <div class="level-stats">
-                            <i class="fas fa-users"></i>
-                            <span>चाहिए: ${level.required}</span>
-                        </div>
-                        <div class="level-earnings">
-                            <i class="fas fa-dollar-sign"></i>
-                            <span>आपकी कमाई: 0 USDT</span>
-                        </div>
-                        <button class="view-level-btn" onclick="showLevelDetails(${level.level})">
-                            डिटेल देखें <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                `;
-                referralGrid.appendChild(card);
-            });
-        }
-
-        // ========== Load User Data (Mock) ==========
-        function loadUserData() {
+        // ========== Load User Data (Mock for now) ==========
+        async function loadUserData() {
             if (!isConnected) return;
             
-            // Mock data
-            document.getElementById('userStake').textContent = '2500 VNT';
-            document.getElementById('pendingReward').textContent = '125.50 USDT';
-            document.getElementById('totalReferrals').textContent = '12';
-            
-            // Update stakes table
-            const stakesBody = document.getElementById('stakesBody');
-            stakesBody.innerHTML = `
-                <tr>
-                    <td>डायमंड 12</td>
-                    <td>1000 VNT</td>
-                    <td>45.50 USDT</td>
-                    <td>31 दिसंबर 2026</td>
-                    <td><button class="btn-small btn-secondary" onclick="claimStake(1)">क्लेम</button></td>
-                </tr>
-                <tr>
-                    <td>डायमंड 6</td>
-                    <td>1500 VNT</td>
-                    <td>32.80 USDT</td>
-                    <td>30 जून 2026</td>
-                    <td><button class="btn-small btn-secondary" onclick="claimStake(2)">क्लेम</button></td>
-                </tr>
-            `;
+            try {
+                // TODO: कॉन्ट्रैक्ट से डेटा लोड करें
+                // const totalStaked = await contract.methods.stakedBalance().call();
+                // const userStakes = await contract.methods.getUserStakes(currentAccount).call();
+                // const pendingReward = await contract.methods.pendingReward(currentAccount, stakeId).call();
+                
+                // Mock data for UI demo
+                document.getElementById('totalStaked').textContent = '125,000';
+                document.getElementById('totalStakedUSD').textContent = '$12,500';
+                document.getElementById('maxApr').textContent = '60%';
+                document.getElementById('userStake').textContent = '2,500 VNT';
+                document.getElementById('userStakeUSD').textContent = '$250';
+                document.getElementById('pendingReward').textContent = '45.50 USDT';
+                document.getElementById('activeStakesCount').textContent = '2';
+                
+                // Load stakes preview
+                const previewBody = document.getElementById('stakesPreviewBody');
+                previewBody.innerHTML = `
+                    <tr>
+                        <td>डायमंड 12</td>
+                        <td>1,000 VNT</td>
+                        <td>$100</td>
+                        <td>25.50 USDT</td>
+                        <td>31 दिसंबर 2026</td>
+                        <td><button class="btn-small btn-secondary" onclick="claimStake(1)">क्लेम</button></td>
+                    </tr>
+                    <tr>
+                        <td>डायमंड 6</td>
+                        <td>1,500 VNT</td>
+                        <td>$150</td>
+                        <td>20.00 USDT</td>
+                        <td>30 जून 2026</td>
+                        <td><button class="btn-small btn-secondary" onclick="claimStake(2)">क्लेम</button></td>
+                    </tr>
+                `;
+                
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showToast('डेटा लोड करने में त्रुटि', 'error');
+            }
         }
 
-        // ========== Load Page Data ==========
         function loadPageData(pageId) {
-            if (!isConnected && pageId !== 'dashboard') {
-                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
-                switchPage('dashboard');
-                return;
-            }
-            
             switch(pageId) {
                 case 'dashboard':
                     if (isConnected) loadUserData();
@@ -1536,19 +1472,149 @@
                 case 'packages':
                     loadPackages();
                     break;
-                case 'referral':
-                    loadReferralLevels();
-                    break;
-                case 'profile':
-                    // Load profile data
+                case 'my-stakes':
+                    if (isConnected) loadFullStakes();
                     break;
             }
         }
 
+        function loadFullStakes() {
+            // TODO: लोड all stakes
+            const activeBody = document.getElementById('activeStakesBody');
+            activeBody.innerHTML = `
+                <tr>
+                    <td>#101</td>
+                    <td>डायमंड 12</td>
+                    <td>1,000 VNT</td>
+                    <td>$100</td>
+                    <td>25.50 USDT</td>
+                    <td>01-01-2026</td>
+                    <td>31-12-2026</td>
+                    <td>10.50 USDT</td>
+                    <td>
+                        <button class="btn-small btn-secondary" onclick="claimStake(101)">क्लेम</button>
+                        <button class="btn-small btn-secondary" onclick="releaseStake(101)">रिलीज</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#102</td>
+                    <td>डायमंड 6</td>
+                    <td>1,500 VNT</td>
+                    <td>$150</td>
+                    <td>20.00 USDT</td>
+                    <td>01-01-2026</td>
+                    <td>30-06-2026</td>
+                    <td>15.00 USDT</td>
+                    <td>
+                        <button class="btn-small btn-secondary" onclick="claimStake(102)">क्लेम</button>
+                        <button class="btn-small btn-secondary" onclick="releaseStake(102)">रिलीज</button>
+                    </td>
+                </tr>
+            `;
+            
+            const inactiveBody = document.getElementById('inactiveStakesBody');
+            inactiveBody.innerHTML = `
+                <tr>
+                    <td>#100</td>
+                    <td>डायमंड 3</td>
+                    <td>500 VNT</td>
+                    <td>9.50 USDT</td>
+                    <td>01-10-2025</td>
+                    <td>31-12-2025</td>
+                </tr>
+            `;
+        }
+
+        // ========== Contract Functions ==========
+        async function approveVNT() {
+            if (!isConnected) {
+                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
+                return;
+            }
+            
+            try {
+                showToast('अप्रूव ट्रांजैक्शन भेजा जा रहा है...', 'info');
+                // TODO: await vntToken.approve(contractAddress, amount);
+                showToast('अप्रूव सफल! अब स्टेक कर सकते हैं', 'success');
+            } catch (error) {
+                showToast('अप्रूव फेल: ' + error.message, 'error');
+            }
+        }
+
+        async function stake() {
+            if (!isConnected) {
+                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
+                return;
+            }
+            
+            const packageId = document.getElementById('stakePackage').value;
+            const amount = document.getElementById('stakeAmount').value;
+            
+            if (!amount || amount < 100) {
+                showToast('कम से कम 100 VNT डालें!', 'warning');
+                return;
+            }
+            
+            try {
+                showToast('स्टेकिंग प्रोसेस शुरू...', 'info');
+                // TODO: await contract.methods.stake(packageId, amount).send({from: currentAccount});
+                showToast('स्टेक सफल!', 'success');
+                loadUserData();
+            } catch (error) {
+                showToast('स्टेक फेल: ' + error.message, 'error');
+            }
+        }
+
+        async function claimAll() {
+            if (!isConnected) {
+                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
+                return;
+            }
+            
+            try {
+                showToast('सभी रिवॉर्ड क्लेम किए जा रहे हैं...', 'info');
+                // TODO: await contract.methods.claimAll().send({from: currentAccount});
+                showToast('रिवॉर्ड क्लेम सफल!', 'success');
+                loadUserData();
+            } catch (error) {
+                showToast('क्लेम फेल: ' + error.message, 'error');
+            }
+        }
+
+        async function claimStake(stakeId) {
+            if (!isConnected) return;
+            
+            try {
+                showToast(`स्टेक #${stakeId} का रिवॉर्ड क्लेम किया जा रहा है...`, 'info');
+                // TODO: await contract.methods.claim(stakeId).send({from: currentAccount});
+                showToast('रिवॉर्ड क्लेम सफल!', 'success');
+                loadUserData();
+            } catch (error) {
+                showToast('क्लेम फेल: ' + error.message, 'error');
+            }
+        }
+
+        async function releaseStake(stakeId) {
+            if (!isConnected) return;
+            
+            try {
+                showToast(`स्टेक #${stakeId} रिलीज किया जा रहा है...`, 'info');
+                // TODO: await contract.methods.release(stakeId).send({from: currentAccount});
+                showToast('स्टेक रिलीज सफल!', 'success');
+                loadUserData();
+            } catch (error) {
+                showToast('रिलीज फेल: ' + error.message, 'error');
+            }
+        }
+
+        // ========== Event Listeners ==========
+        document.getElementById('approveBtn').addEventListener('click', approveVNT);
+        document.getElementById('stakeBtn').addEventListener('click', stake);
+        document.getElementById('claimAllBtn').addEventListener('click', claimAll);
+
         // ========== Initialize ==========
         window.addEventListener('load', () => {
             loadPackages();
-            loadReferralLevels();
             updateCalculator();
             
             // Check if MetaMask is already connected
@@ -1561,65 +1627,35 @@
                         walletInfo.classList.remove('hidden');
                         document.getElementById('walletAddress').textContent = 
                             currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
-                        document.getElementById('referralLink').value = 
-                            window.location.origin + '?ref=' + currentAccount;
+                        
+                        // Load user data
+                        loadUserData();
                     }
                 });
             }
-        });
-
-        // ========== Mock Functions for Demo ==========
-        function showLevelDetails(level) {
-            showToast(`लेवल ${level} की डिटेल जल्द आ रही है!`, 'info');
-        }
-
-        function claimStake(stakeId) {
-            showToast(`स्टेक #${stakeId} का रिवॉर्ड क्लेम किया जा रहा है...`, 'info');
-        }
-
-        document.getElementById('claimAllBtn').addEventListener('click', () => {
-            showToast('सभी रिवॉर्ड क्लेम किए जा रहे हैं...', 'info');
-        });
-
-        document.getElementById('stakeBtn').addEventListener('click', () => {
-            if (!isConnected) {
-                showToast('पहले वॉलेट कनेक्ट करें!', 'warning');
-                return;
-            }
-            showToast('स्टेकिंग प्रोसेस शुरू... अप्रूव ट्रांजैक्शन साइन करें', 'info');
-        });
-
-        document.getElementById('activateBtn').addEventListener('click', () => {
-            const referrer = document.getElementById('referrerAddress').value;
-            if (!referrer) {
-                showToast('रेफरर एड्रेस डालें!', 'warning');
-                return;
-            }
-            showToast('रेफरल एक्टिवेट हो गया! अब स्टेक कर सकते हैं', 'success');
         });
 
         // Handle MetaMask account changes
         if (typeof window.ethereum !== 'undefined') {
             window.ethereum.on('accountsChanged', (accounts) => {
                 if (accounts.length === 0) {
-                    // Disconnected
                     currentAccount = null;
                     isConnected = false;
                     connectBtn.classList.remove('hidden');
                     walletInfo.classList.add('hidden');
                     showToast('वॉलेट डिस्कनेक्ट हो गया');
                 } else {
-                    // Switched account
                     currentAccount = accounts[0];
                     document.getElementById('walletAddress').textContent = 
                         currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
-                    document.getElementById('referralLink').value = 
-                        window.location.origin + '?ref=' + currentAccount;
                     showToast('अकाउंट स्विच हुआ');
                     loadUserData();
                 }
             });
         }
     </script>
+    
+    <!-- Web3.js for blockchain interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
 </body>
 </html>
