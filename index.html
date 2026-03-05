@@ -1513,7 +1513,7 @@
                     showToast('Wallet connected');
                     
                     // Initialize contract
-                    if (window.ethereum && contractAddress !== "0xYourContractAddressHere") {
+                    if (window.ethereum && contractAddress !== "0x3FbcFA4c1E44fFd1751607475503Fb0e229b90dE") {
                         const web3 = new Web3(window.ethereum);
                         contract = new web3.eth.Contract(contractABI, contractAddress);
                     }
@@ -1583,8 +1583,8 @@
             packagesGrid.innerHTML = '';
             
             const packages = [
-                { name: 'Silver 3', months: 3, apr: 18, desc: 'Short Term Staking' },
-                { name: 'Gold 6', months: 6, apr: 30, desc: 'Medium Term Staking' },
+                { name: 'Diamond 3', months: 3, apr: 18, desc: 'Short Term Staking' },
+                { name: 'Diamond 6', months: 6, apr: 30, desc: 'Medium Term Staking' },
                 { name: 'Diamond 12', months: 12, apr: 60, desc: 'Long Term Staking' }
             ];
             
