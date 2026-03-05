@@ -1898,12 +1898,12 @@
             if (!selectedPkg) return;
             
             const usdtValue = amount * 0.1; // 1 VNT = 0.10 USDT
-            const apr = selectedPkg.apr / 100;
+            const apr = selectedPkg.apr / 10000;
             const months = selectedPkg.months;
             
-            const daily = (usdtValue * apr / 365).toFixed(4);
-            const monthly = (usdtValue * apr / 12).toFixed(2);
-            const total = (usdtValue * apr * months / 12).toFixed(2);
+            const daily = (usdtValue * aprDecimal / 365).toFixed(4);
+            const monthly = (usdtValue * aprDecimal / 12).toFixed(2);
+            const total = (usdtValue * aprDecimal * months / 12).toFixed(2);
             
             document.getElementById('calcDaily').textContent = daily;
             document.getElementById('calcMonthly').textContent = monthly;
