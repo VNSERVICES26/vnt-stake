@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNT Staking - Diamond Staking Platform</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* ========== Your given CSS (same as before) ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ffff;
+            --secondary: #ff00ff;
+            --accent: #ffff00;
+            --diamond: #b9f2ff;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff4444;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000, #1a0033, #000066);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .diamond-shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .floating-diamonds::before,
+        .floating-diamonds::after {
+            content: "♦";
+            position: absolute;
+            font-size: 100px;
+            color: rgba(185, 242, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-diamonds::before {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-diamonds::after {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        /* Navbar */
+        .glass-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--diamond), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            color: var(--diamond);
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Desktop Navigation */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 100%;
+        }
+
+        /* Mobile Navigation */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin: 3px 0;
+            transition: 0.4s;
+            border-radius: 3px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(26,0,51,0.95));
+            backdrop-filter: blur(20px);
+            border-left: 2px solid var(--primary);
+            z-index: 999;
+            padding: 100px 2rem 2rem;
+            transition: 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a i {
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+            display: none;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        /* Wallet Button */
+        .connect-wallet-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connect-wallet-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: rotate 4s linear infinite;
+        }
+
+        .connect-wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .wallet-info {
+            background: var(--glass);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 2rem;
+        }
+
+        /* Page Container */
+        .page-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .glowing-text {
+            font-size: 4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .gradient-text {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,255,255,0.2);
+        }
+
+        .stat-card.diamond {
+            background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(255,0,255,0.1));
+            border: 2px solid rgba(185, 242, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card span {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            color: var(--diamond);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .activation-card {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-image-slice: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Packages Grid */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .package-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-image-slice: 1;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .package-header {
+            margin-bottom: 2rem;
+        }
+
+        .package-header h3 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .package-apr {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+
+        .package-duration {
+            font-size: 1.2rem;
+            color: var(--diamond);
+        }
+
+        .package-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .package-features li {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .package-features i {
+            color: var(--success);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card.premium {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin: 1rem 0 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem !important;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--diamond), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Forms */
+        .form-group {
+            margin: 1.5rem 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: rotate 4s linear infinite;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: black;
+            transform: translateX(5px);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+            padding: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: rgba(255,170,0,0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .alert-danger {
+            background: rgba(255,68,68,0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .alert-info {
+            background: rgba(0,255,255,0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast i {
+            color: var(--primary);
+        }
+
+        .toast.hidden {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px var(--secondary); }
+            50% { text-shadow: 0 0 20px var(--secondary), 0 0 40px var(--secondary), 0 0 60px var(--primary); }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .glowing-text {
+                font-size: 2.5rem;
+            }
+
+            .gradient-text {
+                font-size: 1.5rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                width: 100%;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wallet-info span {
+                display: none;
+            }
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .stat-small {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        /* VNT Price Display */
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        /* ========== Mobile Friendly Fixes ========== */
+
+/* Mobile screen special styles */
+@media (max-width: 768px) {
+    
+    /* Calculator boxes in single column */
+    .stats-grid[style*="grid-template-columns: repeat(3,1fr)"] {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    /* Calculator box sizing */
+    .stats-grid[style*="grid-template-columns: repeat(3,1fr)"] .stat-card {
+        padding: 1.5rem !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* Full width forms on stake page */
+    #stake .card {
+        padding: 1.5rem !important;
+        margin: 1rem 0 !important;
+    }
+    
+    /* Fix amount input and USD display */
+    #stake .form-group {
+        margin: 1rem 0 !important;
+    }
+    
+    /* Stack buttons */
+    #stake [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    /* Full width approve and stake buttons */
+    #stake .btn-secondary,
+    #stake .btn-primary {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* Adjust min and USD value under stake amount */
+    #stake .form-group + div {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+    }
+    
+    /* Full width calculator inputs */
+    #calcAmount, #calcPackage {
+        width: 100% !important;
+    }
+    
+    /* Fix all cards on stake page */
+    #stake .card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Stack dashboard stats cards */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    /* Stack hero stats */
+    .hero-stats {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .hero-stats .stat-card {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* Make tables scrollable */
+    .table-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* Fix table width for scrolling */
+    table {
+        min-width: 600px !important;
+    }
+    
+    /* Reduce font sizes */
+    .glowing-text {
+        font-size: 2rem !important;
+    }
+    
+    .gradient-text {
+        font-size: 1.2rem !important;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Stack package cards */
+    .packages-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+    
+    /* Fix mobile menu */
+    .mobile-menu {
+        width: 80% !important;
+        padding: 80px 1.5rem 2rem !important;
+    }
+    
+    .mobile-menu a {
+        font-size: 1.1rem !important;
+        padding: 0.8rem !important;
+    }
+    
+    /* Smaller wallet button */
+    .connect-wallet-btn {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .wallet-info {
+        padding: 0.4rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Mobile friendly modal */
+    .modal-content {
+        width: 95% !important;
+        padding: 1.5rem !important;
+        margin: 1rem !important;
+    }
+    
+    /* Adjust toast notification */
+    .toast {
+        bottom: 1rem !important;
+        right: 1rem !important;
+        left: 1rem !important;
+        width: auto !important;
+        padding: 0.8rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Very small screens (less than 400px) */
+@media (max-width: 400px) {
+    .glowing-text {
+        font-size: 1.5rem !important;
+    }
+    
+    .gradient-text {
+        font-size: 1rem !important;
+    }
+    
+    .card {
+        padding: 1rem !important;
+    }
+    
+    .card-header h3 {
+        font-size: 1.2rem !important;
+    }
+    
+    .card-header i {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-card {
+        padding: 1rem !important;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem !important;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 0.8rem 1rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .form-control {
+        padding: 0.8rem !important;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="diamond-shine"></div>
+        <div class="floating-diamonds"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-gem"></i>
+                <span>VNT Staking</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#" class="nav-link" data-page="stake"><i class="fas fa-coins"></i> Stake</a>
+                <a href="#" class="nav-link" data-page="packages"><i class="fas fa-box"></i> Packages</a>
+                <a href="#" class="nav-link" data-page="my-stakes"><i class="fas fa-history"></i> My Stakes</a>
+                <a href="https://vr5stake.in" target="_blank">Main Site</a>
+                <a href="https://vr5stake.in/swap.html" target="_blank">VNT swap</a>
+            </div>
+
+            <!-- Hamburger Menu for Mobile -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Wallet Connection -->
+            <div>
+                <button class="connect-wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+                <div class="wallet-info hidden" id="walletInfo">
+                    <i class="fas fa-check-circle" style="color: #00ff88;"></i>
+                    <span id="walletAddress">0x1234...5678</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="mobile-nav-link active" data-page="dashboard">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="stake">
+            <i class="fas fa-coins"></i> Stake
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="packages">
+            <i class="fas fa-box"></i> Packages
+        </a>
+        <a href="#" class="mobile-nav-link" data-page="my-stakes">
+            <i class="fas fa-history"></i> My Stakes
+        </a>
+        <a href="https://vr5stake.in" target="_blank">Main Site</a>
+        <a href="https://vr5stake.in/swap.html" target="_blank">VNT swap</a>
+    </div>
+    <div class="mobile-menu-overlay" id="menuOverlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page-container active">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1 class="glowing-text">VNT Staking</h1>
+                <h2 class="gradient-text">Earn Amazing Rewards in USDT</h2>
+                
+                <!-- VNT Price Display -->
+                <div style="margin-bottom: 2rem;">
+                    <span class="stat-card" style="display: inline-block; padding: 0.5rem 2rem;">
+                        <i class="fas fa-chart-line"></i>
+                        1 VNT = 0.10 USDT <span class="price-tag">Fixed</span>
+                    </span>
+                </div>
+                
+                <!-- Hero Stats -->
+                <div class="hero-stats">
+                    <div class="stat-card diamond">
+                        <i class="fas fa-database"></i>
+                        <span id="totalStaked">-</span>
+                        <p>Total Staked VNT</p>
+                        <small class="stat-small" id="totalStakedUSD">-</small>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-box"></i>
+                        <span id="totalPackages">-</span>
+                        <p>Total Packages</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-percent"></i>
+                        <span id="maxApr">-</span>
+                        <p>Maximum APR</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card premium">
+                    <i class="fas fa-coins"></i>
+                    <span class="stat-label">Your Stake</span>
+                    <span class="stat-value" id="userStake">-</span>
+                    <span class="stat-small" id="userStakeUSD">-</span>
+                </div>
+                <div class="stat-card premium">
+                    <i class="fas fa-gift"></i>
+                    <span class="stat-label">Pending Reward</span>
+                    <span class="stat-value" id="pendingReward">-</span>
+                    <button class="btn-small btn-secondary" id="claimAllBtn">
+                        <i class="fas fa-hand-holding-usd"></i> Claim All
+                    </button>
+                </div>
+                <div class="stat-card premium">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="stat-label">Active Stakes</span>
+                    <span class="stat-value" id="activeStakesCount">-</span>
+                </div>
+            </div>
+
+            <!-- Active Stakes Preview -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-history"></i>
+                    <h3>Your Active Stakes</h3>
+                    <a href="#" onclick="switchPage('my-stakes')" style="margin-left: auto; color: var(--primary);">View All →</a>
+                </div>
+                <div class="table-container">
+                    <table id="activeStakesTable">
+                        <thead>
+                            <tr>
+                                <th>Package</th>
+                                <th>Amount (VNT)</th>
+                                <th>Value (USDT)</th>
+                                <th>Pending Reward</th>
+                                <th>Lock Ends</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stakesPreviewBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No active stakes found. Connect wallet to view your stakes.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Info:</strong> You need to approve VNT tokens before staking. Rewards will be distributed in USDT.
+                </div>
+            </div>
+        </div>
+
+        <!-- Stake Page -->
+        <div id="stake" class="page-container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-coins"></i>
+                    <h3>Create New Stake</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label>Select Package</label>
+                    <select class="form-control" id="stakePackage">
+                        <option value="0">Loading packages...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (VNT)</label>
+                    <input type="number" class="form-control" id="stakeAmount" placeholder="Minimum 100 VNT" min="100" step="1">
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <small style="color: var(--primary);">Min: 100 VNT</small>
+                        <small style="color: var(--primary);">Value: <span id="amountUSD">0</span> USDT</small>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning" style="margin: 1rem 0;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Don't forget to approve VNT tokens before staking!</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <button class="btn-secondary" id="approveBtn">
+                        <i class="fas fa-check-circle"></i> Approve
+                    </button>
+                    <button class="btn-primary" id="stakeBtn">
+                        <i class="fas fa-lock"></i> Stake
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Reward Calculator</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label>Amount (VNT)</label>
+                    <input type="number" class="form-control" id="calcAmount" value="1000" min="100">
+                </div>
+
+                <div class="form-group">
+                    <label>Package</label>
+                    <select class="form-control" id="calcPackage">
+                        <option value="0">Loading packages...</option>
+                    </select>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
+                    <div class="stat-card" style="padding: 1rem;">
+                        <span class="stat-label">Daily</span>
+                        <span class="stat-value" id="calcDaily">0</span>
+                        <small>USDT</small>
+                    </div>
+                    <div class="stat-card" style="padding: 1rem;">
+                        <span class="stat-label">Monthly</span>
+                        <span class="stat-value" id="calcMonthly">0</span>
+                        <small>USDT</small>
+                    </div>
+                    <div class="stat-card" style="padding: 1rem;">
+                        <span class="stat-label">Total</span>
+                        <span class="stat-value" id="calcTotal">0</span>
+                        <small>USDT</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packages Page -->
+        <div id="packages" class="page-container">
+            <div class="card-header">
+                <i class="fas fa-box"></i>
+                <h3>Staking Packages</h3>
+            </div>
+
+            <div class="packages-grid" id="packagesGrid">
+                <!-- Packages will be loaded from contract -->
+            </div>
+        </div>
+
+        <!-- My Stakes Page -->
+        <div id="my-stakes" class="page-container">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-history"></i>
+                    <h3>My Stakes</h3>
+                </div>
+
+                <!-- Active Stakes -->
+                <div class="card" style="margin: 1rem 0;">
+                    <div class="card-header">
+                        <i class="fas fa-play-circle"></i>
+                        <h4>Active Stakes</h4>
+                    </div>
+                    <div class="table-container">
+                        <table id="activeStakesFullTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Package</th>
+                                    <th>Amount (VNT)</th>
+                                    <th>Value (USDT)</th>
+                                    <th>Pending Reward</th>
+                                    <th>Start</th>
+                                    <th>Lock Ends</th>
+                                    <th>Claimed</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activeStakesBody">
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">Connect wallet to view your stakes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Released/Inactive Stakes -->
+                <div class="card" style="margin: 1rem 0;">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Released Stakes</h4>
+                    </div>
+                    <div class="table-container">
+                        <table id="inactiveStakesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Package</th>
+                                    <th>Amount (VNT)</th>
+                                    <th>Total Reward</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inactiveStakesBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">Connect wallet to view your stakes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="stakeModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="card-header">
+                <i class="fas fa-gem"></i>
+                <h3>Stake Details</h3>
+            </div>
+            <div id="modalContent">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        // ========== JavaScript for VNTStaking Contract ==========
+
+        // DOM Elements
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const connectBtn = document.getElementById('connectWallet');
+        const walletInfo = document.getElementById('walletInfo');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const pages = document.querySelectorAll('.page-container');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // State
+        let currentAccount = null;
+        let isConnected = false;
+        let contract = null;
+        let vntContract = null;
+        let usdtContract = null;
+        let packages = [];
+        let userStakes = [];
+
+        // Contract Details - UPDATE THESE AFTER DEPLOYMENT
+        const contractAddress = "0x3FbcFA4c1E44fFd1751607475503Fb0e229b90dE"; 
+        const vntTokenAddress = "0xD379Fd70C5C334bb31208122A6781ADB032D176f"; 
+        const usdtTokenAddress = "0x55d398326f99059fF775485246999027B3197955"; 
+        
+        // Contract ABI
+        const contractABI = [{"inputs":[{"internalType":"address","name":"_vnt","type":"address"},{"internalType":"address","name":"_usdt","type":"address"},{"internalType":"address","name":"_wallet","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":false,"internalType":"bool","name":"status","type":"bool"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint32","name":"dur","type":"uint32"},{"indexed":false,"internalType":"uint16","name":"apr","type":"uint16"}],"name":"PkgCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint32","name":"dur","type":"uint32"},{"indexed":false,"internalType":"uint16","name":"apr","type":"uint16"},{"indexed":false,"internalType":"bool","name":"active","type":"bool"}],"name":"PkgUpd","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amt","type":"uint256"}],"name":"Released","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amt","type":"uint256"}],"name":"Reward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint128","name":"amt","type":"uint128"},{"indexed":false,"internalType":"uint128","name":"usdt","type":"uint128"},{"indexed":false,"internalType":"uint32","name":"end","type":"uint32"}],"name":"Staked","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"oldW","type":"address"},{"indexed":true,"internalType":"address","name":"newW","type":"address"}],"name":"WalletUpd","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amt","type":"uint256"}],"name":"Withdrawn","type":"event"},{"inputs":[{"internalType":"uint256","name":"sid","type":"uint256"}],"name":"claim","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint32","name":"months","type":"uint32"},{"internalType":"uint16","name":"apr","type":"uint16"}],"name":"createPkg","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"pid","type":"uint256"}],"name":"getPkg","outputs":[{"internalType":"uint256","name":"durSec","type":"uint256"},{"internalType":"uint256","name":"durMon","type":"uint256"},{"internalType":"uint256","name":"apr","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"sid","type":"uint256"}],"name":"getStakeBasic","outputs":[{"internalType":"uint256","name":"pid","type":"uint256"},{"internalType":"uint256","name":"amt","type":"uint256"},{"internalType":"uint256","name":"start","type":"uint256"},{"internalType":"uint256","name":"end","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"sid","type":"uint256"}],"name":"getStakeRewards","outputs":[{"internalType":"uint256","name":"usdtVal","type":"uint256"},{"internalType":"uint256","name":"claimed","type":"uint256"},{"internalType":"uint256","name":"pending","type":"uint256"},{"internalType":"uint256","name":"lastReward","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"start","type":"uint256"},{"internalType":"uint256","name":"limit","type":"uint256"}],"name":"getStakers","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserStakes","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isStaker","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"minStakeAmount","outputs":[{"internalType":"uint128","name":"","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"minWithdrawAmount","outputs":[{"internalType":"uint128","name":"","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"packages","outputs":[{"internalType":"uint32","name":"duration","type":"uint32"},{"internalType":"uint16","name":"apr","type":"uint16"},{"internalType":"bool","name":"isActive","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"sid","type":"uint256"}],"name":"pendingReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pkgCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"sid","type":"uint256"}],"name":"release","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"rewardWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint128","name":"amt","type":"uint128"}],"name":"setMinStake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint128","name":"amt","type":"uint128"}],"name":"setMinWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"w","type":"address"}],"name":"setRewardWallet","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"pid","type":"uint256"},{"internalType":"uint256","name":"amt","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"stakedBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"stakers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalStakers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"unpause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"pid","type":"uint256"},{"internalType":"uint32","name":"months","type":"uint32"},{"internalType":"uint16","name":"apr","type":"uint16"},{"internalType":"bool","name":"active","type":"bool"}],"name":"updatePkg","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"vntToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
+      
+        // Token ABI (simplified ERC20 for approvals)
+        const tokenABI = [
+            {
+                "constant": false,
+                "inputs": [
+                    {"name": "spender", "type": "address"},
+                    {"name": "amount", "type": "uint256"}
+                ],
+                "name": "approve",
+                "outputs": [{"name": "", "type": "bool"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [{"name": "owner", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"name": "", "type": "uint256"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {"name": "owner", "type": "address"},
+                    {"name": "spender", "type": "address"}
+                ],
+                "name": "allowance",
+                "outputs": [{"name": "", "type": "uint256"}],
+                "type": "function"
+            }
+        ];
+
+        // ========== Navigation Functions ==========
+
+        function toggleMobileMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        hamburger.addEventListener('click', toggleMobileMenu);
+        menuOverlay.addEventListener('click', toggleMobileMenu);
+
+        function switchPage(pageId) {
+            // Update desktop nav
+            navLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Update mobile nav
+            mobileNavLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Show selected page
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu if open
+            if (mobileMenu.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+
+            // Load page specific data
+            if (isConnected) {
+                loadPageData(pageId);
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchPage(link.dataset.page);
+            });
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchPage(link.dataset.page);
+            });
+        });
+
+        // ========== Toast Notification ==========
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            
+            if (type === 'success') {
+                toast.querySelector('i').style.color = '#00ff88';
+            } else if (type === 'error') {
+                toast.querySelector('i').style.color = '#ff4444';
+            } else if (type === 'warning') {
+                toast.querySelector('i').style.color = '#ffaa00';
+            } else if (type === 'info') {
+                toast.querySelector('i').style.color = '#00ffff';
+            }
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ========== Wallet Connection ==========
+        connectBtn.addEventListener('click', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ 
+                        method: 'eth_requestAccounts' 
+                    });
+                    
+                    currentAccount = accounts[0];
+                    isConnected = true;
+                    
+                    // Update UI
+                    connectBtn.classList.add('hidden');
+                    walletInfo.classList.remove('hidden');
+                    document.getElementById('walletAddress').textContent = 
+                        currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+                    
+                    showToast('Wallet connected successfully!');
+                    
+                    // Initialize contracts
+                    await initializeContracts();
+                    
+                    // Load all data
+                    await loadAllData();
+                    
+                } catch (error) {
+                    showToast('Connection failed: ' + error.message, 'error');
+                }
+            } else {
+                showToast('MetaMask not installed!', 'warning');
+                window.open('https://metamask.io', '_blank');
+            }
+        });
+
+        walletInfo.addEventListener('click', () => {
+            if (confirm('Disconnect wallet?')) {
+                currentAccount = null;
+                isConnected = false;
+                connectBtn.classList.remove('hidden');
+                walletInfo.classList.add('hidden');
+                showToast('Wallet disconnected');
+                
+                // Clear data
+                clearAllData();
+            }
+        });
+
+        async function initializeContracts() {
+            if (typeof window.ethereum !== 'undefined' && contractAddress !== "0x3FbcFA4c1E44fFd1751607475503Fb0e229b90dE") {
+                const web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+                
+                // Get token addresses from contract
+                try {
+                    const vntAddr = await contract.methods.vntToken().call();
+                    const usdtAddr = await contract.methods.usdtToken().call();
+                    
+                    vntContract = new web3.eth.Contract(tokenABI, vntAddr);
+                    usdtContract = new web3.eth.Contract(tokenABI, usdtAddr);
+                    
+                    console.log('Contracts initialized');
+                } catch (error) {
+                    console.error('Error getting token addresses:', error);
+                }
+            }
+        }
+
+        // ========== Load Contract Data ==========
+        async function loadAllData() {
+            if (!isConnected || !contract) return;
+            
+            try {
+                // Load packages first
+                await loadPackages();
+                
+                // Load global stats
+                await loadGlobalStats();
+                
+                // Load user data
+                await loadUserData();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showToast('Error loading data from contract', 'error');
+            }
+        }
+
+        async function loadGlobalStats() {
+            try {
+                // Get total staked balance
+                const totalStakedWei = await contract.methods.stakedBalance().call();
+                const totalStaked = Web3.utils.fromWei(totalStakedWei, 'ether');
+                document.getElementById('totalStaked').textContent = formatNumber(parseFloat(totalStaked).toFixed(0));
+                document.getElementById('totalStakedUSD').textContent = '$' + formatNumber((parseFloat(totalStaked) * 0.1).toFixed(2));
+                
+                // Get package count
+                const pkgCount = await contract.methods.pkgCount().call();
+                document.getElementById('totalPackages').textContent = pkgCount;
+                
+                // Find max APR
+                let maxApr = 0;
+                for (let i = 0; i < pkgCount; i++) {
+                    const pkg = await contract.methods.packages(i).call();
+                    if (pkg.isActive && pkg.apr > maxApr) {
+                        maxApr = pkg.apr;
+                    }
+                }
+                document.getElementById('maxApr').textContent = maxApr + '%';
+                
+            } catch (error) {
+                console.error('Error loading global stats:', error);
+            }
+        }
+
+        async function loadUserData() {
+            if (!isConnected || !contract || !currentAccount) return;
+            
+            try {
+                // Get user's stake IDs
+                const stakeIds = await contract.methods.getUserStakes(currentAccount).call();
+                
+                let totalUserStake = 0;
+                let totalPendingReward = 0;
+                let activeCount = 0;
+                let activeStakesList = [];
+                
+                // Process each stake
+                for (let id of stakeIds) {
+                    const stakeBasic = await contract.methods.getStakeBasic(currentAccount, id).call();
+                    const stakeRewards = await contract.methods.getStakeRewards(currentAccount, id).call();
+                    
+                    const amount = parseFloat(Web3.utils.fromWei(stakeBasic.amt, 'ether'));
+                    const pending = parseFloat(Web3.utils.fromWei(stakeRewards.pending, 'mwei')); // USDT has 6 decimals
+                    
+                    if (stakeBasic.active) {
+                        totalUserStake += amount;
+                        totalPendingReward += pending;
+                        activeCount++;
+                        
+                        // Get package info
+                        const pkg = await contract.methods.packages(stakeBasic.pid).call();
+                        
+                        activeStakesList.push({
+                            id: id,
+                            pid: stakeBasic.pid,
+                            amount: amount,
+                            pending: pending,
+                            start: stakeBasic.start,
+                            end: stakeBasic.end,
+                            packageName: `Package ${parseInt(stakeBasic.pid) + 1}`,
+                            apr: pkg.apr
+                        });
+                    }
+                }
+                
+                // Update UI
+                document.getElementById('userStake').textContent = formatNumber(totalUserStake.toFixed(0)) + ' VNT';
+                document.getElementById('userStakeUSD').textContent = '$' + formatNumber((totalUserStake * 0.1).toFixed(2));
+                document.getElementById('pendingReward').textContent = formatNumber(totalPendingReward.toFixed(2)) + ' USDT';
+                document.getElementById('activeStakesCount').textContent = activeCount;
+                
+                // Update stakes preview table
+                updateStakesPreview(activeStakesList);
+                updateFullStakesTable(activeStakesList);
+                
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        function updateStakesPreview(stakes) {
+            const tbody = document.getElementById('stakesPreviewBody');
+            
+            if (stakes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No active stakes</td></tr>';
+                return;
+            }
+            
+            // Show only first 3 stakes in preview
+            const previewStakes = stakes.slice(0, 3);
+            let html = '';
+            
+            previewStakes.forEach(stake => {
+                const endDate = new Date(stake.end * 1000).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                html += `
+                    <tr>
+                        <td>Package ${parseInt(stake.pid) + 1} (${stake.apr}% APR)</td>
+                        <td>${formatNumber(stake.amount.toFixed(0))} VNT</td>
+                        <td>$${formatNumber((stake.amount * 0.1).toFixed(2))}</td>
+                        <td>${formatNumber(stake.pending.toFixed(2))} USDT</td>
+                        <td>${endDate}</td>
+                        <td><button class="btn-small btn-secondary" onclick="claimStake('${stake.id}')">Claim</button></td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+        }
+
+        function updateFullStakesTable(stakes) {
+            const tbody = document.getElementById('activeStakesBody');
+            
+            if (stakes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">No active stakes</td></tr>';
+                return;
+            }
+            
+            let html = '';
+            
+            stakes.forEach(stake => {
+                const startDate = new Date(stake.start * 1000).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                const endDate = new Date(stake.end * 1000).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                html += `
+                    <tr>
+                        <td>#${stake.id}</td>
+                        <td>Package ${parseInt(stake.pid) + 1} (${stake.apr}%)</td>
+                        <td>${formatNumber(stake.amount.toFixed(0))} VNT</td>
+                        <td>$${formatNumber((stake.amount * 0.1).toFixed(2))}</td>
+                        <td>${formatNumber(stake.pending.toFixed(2))} USDT</td>
+                        <td>${startDate}</td>
+                        <td>${endDate}</td>
+                        <td>-</td>
+                        <td>
+                            <button class="btn-small btn-secondary" onclick="claimStake('${stake.id}')">Claim</button>
+                            <button class="btn-small btn-secondary" onclick="releaseStake('${stake.id}')">Release</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+        }
+
+        async function loadPackages() {
+            if (!contract) return;
+            
+            try {
+                const pkgCount = await contract.methods.pkgCount().call();
+                packages = [];
+                
+                for (let i = 0; i < pkgCount; i++) {
+                    const pkg = await contract.methods.packages(i).call();
+                    if (pkg.isActive) {
+                        packages.push({
+                            id: i,
+                            duration: pkg.duration,
+                            apr: pkg.apr,
+                            months: Math.floor(pkg.duration / 30 / 24 / 3600) // Approximate months
+                        });
+                    }
+                }
+                
+                // Update UI with packages
+                updatePackagesUI();
+                
+            } catch (error) {
+                console.error('Error loading packages:', error);
+            }
+        }
+
+        function updatePackagesUI() {
+            // Update packages grid
+            const packagesGrid = document.getElementById('packagesGrid');
+            const stakePackageSelect = document.getElementById('stakePackage');
+            const calcPackageSelect = document.getElementById('calcPackage');
+            
+            if (packages.length === 0) {
+                packagesGrid.innerHTML = '<div class="text-center">No packages available</div>';
+                return;
+            }
+            
+            // Update packages grid
+            let gridHtml = '';
+            let optionsHtml = '';
+            
+            packages.forEach((pkg, index) => {
+                const packageNames = ['Diamond 3', 'Diamond 6', 'Diamond 12'];
+                const packageName = packageNames[index] || `Package ${index + 1}`;
+                
+                gridHtml += `
+                    <div class="package-card">
+                        <div class="package-header">
+                            <h3>${packageName}</h3>
+                            <div class="package-apr">${pkg.apr}% APR</div>
+                            <div class="package-duration">${pkg.months} months</div>
+                        </div>
+                        <p style="margin: 1rem 0; color: var(--diamond);">Earn ${pkg.apr}% annually in USDT</p>
+                        <ul class="package-features">
+                            <li><i class="fas fa-check-circle"></i> Rewards in USDT</li>
+                            <li><i class="fas fa-check-circle"></i> No locking fee</li>
+                            <li><i class="fas fa-check-circle"></i> Claim anytime</li>
+                        </ul>
+                        <button class="btn-primary" onclick="switchPage('stake')">
+                            Stake Now
+                        </button>
+                    </div>
+                `;
+                
+                optionsHtml += `<option value="${pkg.id}">${packageName} - ${pkg.months} months (${pkg.apr}% APR)</option>`;
+            });
+            
+            packagesGrid.innerHTML = gridHtml;
+            stakePackageSelect.innerHTML = optionsHtml;
+            calcPackageSelect.innerHTML = optionsHtml;
+            
+            // Update calculator after packages are loaded
+            updateCalculator();
+        }
+
+        function loadPageData(pageId) {
+            switch(pageId) {
+                case 'dashboard':
+                    if (isConnected) loadUserData();
+                    break;
+                case 'packages':
+                    // Packages already loaded
+                    break;
+                case 'my-stakes':
+                    if (isConnected) loadUserData();
+                    break;
+            }
+        }
+
+        function clearAllData() {
+            document.getElementById('totalStaked').textContent = '-';
+            document.getElementById('totalStakedUSD').textContent = '-';
+            document.getElementById('totalPackages').textContent = '-';
+            document.getElementById('maxApr').textContent = '-';
+            document.getElementById('userStake').textContent = '-';
+            document.getElementById('userStakeUSD').textContent = '-';
+            document.getElementById('pendingReward').textContent = '-';
+            document.getElementById('activeStakesCount').textContent = '-';
+            
+            document.getElementById('stakesPreviewBody').innerHTML = '<tr><td colspan="6" style="text-align: center;">Connect wallet to view your stakes</td></tr>';
+            document.getElementById('activeStakesBody').innerHTML = '<tr><td colspan="9" style="text-align: center;">Connect wallet to view your stakes</td></tr>';
+            document.getElementById('inactiveStakesBody').innerHTML = '<tr><td colspan="6" style="text-align: center;">Connect wallet to view your stakes</td></tr>';
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // ========== Calculator Functions ==========
+        function updateCalculator() {
+            const amount = parseFloat(document.getElementById('calcAmount').value) || 1000;
+            const packageId = document.getElementById('calcPackage').value;
+            
+            if (!packages.length || packageId === null) return;
+            
+            const selectedPkg = packages.find(p => p.id == packageId);
+            if (!selectedPkg) return;
+            
+            const usdtValue = amount * 0.1; // 1 VNT = 0.10 USDT
+            const apr = selectedPkg.apr / 100;
+            const months = selectedPkg.months;
+            
+            const daily = (usdtValue * apr / 365).toFixed(4);
+            const monthly = (usdtValue * apr / 12).toFixed(2);
+            const total = (usdtValue * apr * months / 12).toFixed(2);
+            
+            document.getElementById('calcDaily').textContent = daily;
+            document.getElementById('calcMonthly').textContent = monthly;
+            document.getElementById('calcTotal').textContent = total;
+        }
+
+        document.getElementById('calcAmount').addEventListener('input', updateCalculator);
+        document.getElementById('calcPackage').addEventListener('change', updateCalculator);
+
+        // Amount to USD converter
+        document.getElementById('stakeAmount').addEventListener('input', function(e) {
+            const amount = parseFloat(e.target.value) || 0;
+            document.getElementById('amountUSD').textContent = (amount * 0.1).toFixed(2);
+        });
+
+        // ========== Contract Functions ==========
+        async function approveVNT() {
+            if (!isConnected) {
+                showToast('Please connect wallet first!', 'warning');
+                return;
+            }
+            
+            const amount = document.getElementById('stakeAmount').value;
+            if (!amount || amount < 100) {
+                showToast('Please enter minimum 100 VNT!', 'warning');
+                return;
+            }
+            
+            try {
+                showToast('Sending approval transaction...', 'info');
+                
+                const amountWei = Web3.utils.toWei(amount.toString(), 'ether');
+                
+                await vntContract.methods.approve(contractAddress, amountWei)
+                    .send({ from: currentAccount })
+                    .on('transactionHash', (hash) => {
+                        showToast('Approval transaction sent!', 'info');
+                    })
+                    .on('receipt', (receipt) => {
+                        showToast('Approval successful! You can now stake.', 'success');
+                    });
+                    
+            } catch (error) {
+                console.error('Approval error:', error);
+                showToast('Approval failed: ' + error.message, 'error');
+            }
+        }
+
+        async function stake() {
+            if (!isConnected) {
+                showToast('Please connect wallet first!', 'warning');
+                return;
+            }
+            
+            const packageId = document.getElementById('stakePackage').value;
+            const amount = document.getElementById('stakeAmount').value;
+            
+            if (!amount || amount < 100) {
+                showToast('Please enter minimum 100 VNT!', 'warning');
+                return;
+            }
+            
+            try {
+                showToast('Staking in progress...', 'info');
+                
+                const amountWei = Web3.utils.toWei(amount.toString(), 'ether');
+                
+                await contract.methods.stake(packageId, amountWei)
+                    .send({ from: currentAccount })
+                    .on('transactionHash', (hash) => {
+                        showToast('Staking transaction sent!', 'info');
+                    })
+                    .on('receipt', (receipt) => {
+                        showToast('Staking successful!', 'success');
+                        loadUserData();
+                    });
+                    
+            } catch (error) {
+                console.error('Staking error:', error);
+                showToast('Staking failed: ' + error.message, 'error');
+            }
+        }
+
+        async function claimAll() {
+            if (!isConnected) {
+                showToast('Please connect wallet first!', 'warning');
+                return;
+            }
+            
+            try {
+                showToast('Claiming all rewards...', 'info');
+                
+                await contract.methods.claimAll()
+                    .send({ from: currentAccount })
+                    .on('transactionHash', (hash) => {
+                        showToast('Claim transaction sent!', 'info');
+                    })
+                    .on('receipt', (receipt) => {
+                        showToast('All rewards claimed successfully!', 'success');
+                        loadUserData();
+                    });
+                    
+            } catch (error) {
+                console.error('Claim all error:', error);
+                showToast('Claim failed: ' + error.message, 'error');
+            }
+        }
+
+        async function claimStake(stakeId) {
+            if (!isConnected) return;
+            
+            try {
+                showToast(`Claiming reward for stake #${stakeId}...`, 'info');
+                
+                await contract.methods.claim(stakeId)
+                    .send({ from: currentAccount })
+                    .on('transactionHash', (hash) => {
+                        showToast('Claim transaction sent!', 'info');
+                    })
+                    .on('receipt', (receipt) => {
+                        showToast('Reward claimed successfully!', 'success');
+                        loadUserData();
+                    });
+                    
+            } catch (error) {
+                console.error('Claim error:', error);
+                showToast('Claim failed: ' + error.message, 'error');
+            }
+        }
+
+        async function releaseStake(stakeId) {
+            if (!isConnected) return;
+            
+            try {
+                showToast(`Releasing stake #${stakeId}...`, 'info');
+                
+                await contract.methods.release(stakeId)
+                    .send({ from: currentAccount })
+                    .on('transactionHash', (hash) => {
+                        showToast('Release transaction sent!', 'info');
+                    })
+                    .on('receipt', (receipt) => {
+                        showToast('Stake released successfully!', 'success');
+                        loadUserData();
+                    });
+                    
+            } catch (error) {
+                console.error('Release error:', error);
+                showToast('Release failed: ' + error.message, 'error');
+            }
+        }
+
+        // ========== Event Listeners ==========
+        document.getElementById('approveBtn').addEventListener('click', approveVNT);
+        document.getElementById('stakeBtn').addEventListener('click', stake);
+        document.getElementById('claimAllBtn').addEventListener('click', claimAll);
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('stakeModal').classList.remove('active');
+        });
+
+        // ========== Initialize ==========
+        window.addEventListener('load', async () => {
+            // Check if MetaMask is already connected
+            if (typeof window.ethereum !== 'undefined') {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    currentAccount = accounts[0];
+                    isConnected = true;
+                    connectBtn.classList.add('hidden');
+                    walletInfo.classList.remove('hidden');
+                    document.getElementById('walletAddress').textContent = 
+                        currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+                    
+                    // Initialize contracts and load data
+                    await initializeContracts();
+                    await loadAllData();
+                }
+            }
+            
+            // Try to load packages even without wallet (read-only)
+            if (typeof window.ethereum !== 'undefined' && contractAddress !== "0xYourContractAddressHere") {
+                const web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+                await loadPackages();
+            }
+        });
+
+        // Handle MetaMask account changes
+        if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.on('accountsChanged', async (accounts) => {
+                if (accounts.length === 0) {
+                    currentAccount = null;
+                    isConnected = false;
+                    connectBtn.classList.remove('hidden');
+                    walletInfo.classList.add('hidden');
+                    showToast('Wallet disconnected');
+                    clearAllData();
+                } else {
+                    currentAccount = accounts[0];
+                    document.getElementById('walletAddress').textContent = 
+                        currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
+                    showToast('Account switched');
+                    
+                    // Re-initialize and load data
+                    await initializeContracts();
+                    await loadAllData();
+                }
+            });
+            
+            // Handle chain changes
+            window.ethereum.on('chainChanged', () => {
+                window.location.reload();
+            });
+        }
+    </script>
+    
+    <!-- Web3.js for blockchain interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</body>
+</html>
