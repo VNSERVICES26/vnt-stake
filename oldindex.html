@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VNT स्टेकिंग - डायमंड स्टेकिंग प्लेटफॉर्म</title>
+    <title>VNT Staking · Diamond Platform</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* ========== आपका दिया हुआ CSS (वही रहेगा) ========== */
         * {
             margin: 0;
             padding: 0;
@@ -1050,15 +1049,15 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-gem"></i>
-                <span>VNT स्टेकिंग</span>
+                <span>VNT Staking</span>
             </div>
 
             <!-- Desktop Navigation -->
             <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-home"></i> डैशबोर्ड</a>
-                <a href="#" class="nav-link" data-page="stake"><i class="fas fa-coins"></i> स्टेक करें</a>
-                <a href="#" class="nav-link" data-page="packages"><i class="fas fa-box"></i> पैकेज</a>
-                <a href="#" class="nav-link" data-page="my-stakes"><i class="fas fa-history"></i> मेरे स्टेक</a>
+                <a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#" class="nav-link" data-page="stake"><i class="fas fa-coins"></i> Stake</a>
+                <a href="#" class="nav-link" data-page="packages"><i class="fas fa-box"></i> Packages</a>
+                <a href="#" class="nav-link" data-page="my-stakes"><i class="fas fa-history"></i> My Stakes</a>
                 <a href="https://vr5stake.in" target="_blank">Main Site</a>
                 <a href="https://vr5stake.in/swap.html" target="_blank">VNT swap</a>
             </div>
@@ -1076,7 +1075,7 @@
             <div>
                 <button class="connect-wallet-btn" id="connectWallet">
                     <i class="fas fa-wallet"></i>
-                    <span>कनेक्ट करें</span>
+                    <span>Connect</span>
                 </button>
                 <div class="wallet-info hidden" id="walletInfo">
                     <i class="fas fa-check-circle" style="color: #00ff88;"></i>
@@ -1090,16 +1089,16 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <a href="#" class="mobile-nav-link active" data-page="dashboard">
-            <i class="fas fa-home"></i> डैशबोर्ड
+            <i class="fas fa-home"></i> Dashboard
         </a>
         <a href="#" class="mobile-nav-link" data-page="stake">
-            <i class="fas fa-coins"></i> स्टेक करें
+            <i class="fas fa-coins"></i> Stake
         </a>
         <a href="#" class="mobile-nav-link" data-page="packages">
-            <i class="fas fa-box"></i> पैकेज
+            <i class="fas fa-box"></i> Packages
         </a>
         <a href="#" class="mobile-nav-link" data-page="my-stakes">
-            <i class="fas fa-history"></i> मेरे स्टेक
+            <i class="fas fa-history"></i> My Stakes
         </a>
         <a href="https://vr5stake.in" target="_blank">Main Site</a>
         <a href="https://vr5stake.in/swap.html" target="_blank">VNT swap</a>
@@ -1112,14 +1111,14 @@
         <div id="dashboard" class="page-container active">
             <!-- Hero Section -->
             <div class="hero-section">
-                <h1 class="glowing-text">VNT स्टेकिंग</h1>
-                <h2 class="gradient-text">USDT में शानदार रिवॉर्ड पाएं</h2>
+                <h1 class="glowing-text">VNT STAKING</h1>
+                <h2 class="gradient-text">Earn massive USDT rewards</h2>
                 
                 <!-- VNT Price Display -->
                 <div style="margin-bottom: 2rem;">
                     <span class="stat-card" style="display: inline-block; padding: 0.5rem 2rem;">
                         <i class="fas fa-chart-line"></i>
-                        1 VNT = 0.10 USDT <span class="price-tag">फिक्स्ड</span>
+                        1 VNT = 0.10 USDT <span class="price-tag">FIXED</span>
                     </span>
                 </div>
                 
@@ -1128,18 +1127,18 @@
                     <div class="stat-card diamond">
                         <i class="fas fa-database"></i>
                         <span id="totalStaked">0</span>
-                        <p>कुल स्टेक्ड VNT</p>
+                        <p>Total VNT Staked</p>
                         <small class="stat-small" id="totalStakedUSD">$0</small>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-box"></i>
                         <span id="totalPackages">3</span>
-                        <p>कुल पैकेज</p>
+                        <p>Total Packages</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-percent"></i>
                         <span id="maxApr">60%</span>
-                        <p>मैक्सिमम APR</p>
+                        <p>Maximum APR</p>
                     </div>
                 </div>
             </div>
@@ -1148,21 +1147,21 @@
             <div class="stats-grid">
                 <div class="stat-card premium">
                     <i class="fas fa-coins"></i>
-                    <span class="stat-label">आपका स्टेक</span>
+                    <span class="stat-label">Your stake</span>
                     <span class="stat-value" id="userStake">0 VNT</span>
                     <span class="stat-small" id="userStakeUSD">$0</span>
                 </div>
                 <div class="stat-card premium">
                     <i class="fas fa-gift"></i>
-                    <span class="stat-label">पेंडिंग रिवॉर्ड</span>
+                    <span class="stat-label">Pending reward</span>
                     <span class="stat-value" id="pendingReward">0 USDT</span>
                     <button class="btn-small btn-secondary" id="claimAllBtn">
-                        <i class="fas fa-hand-holding-usd"></i> सभी क्लेम करें
+                        <i class="fas fa-hand-holding-usd"></i> Claim all
                     </button>
                 </div>
                 <div class="stat-card premium">
                     <i class="fas fa-check-circle"></i>
-                    <span class="stat-label">एक्टिव स्टेक</span>
+                    <span class="stat-label">Active stakes</span>
                     <span class="stat-value" id="activeStakesCount">0</span>
                 </div>
             </div>
@@ -1171,24 +1170,24 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-history"></i>
-                    <h3>आपके एक्टिव स्टेक</h3>
-                    <a href="#" onclick="switchPage('my-stakes')" style="margin-left: auto; color: var(--primary);">सभी देखें →</a>
+                    <h3>Your active stakes</h3>
+                    <a href="#" onclick="switchPage('my-stakes')" style="margin-left: auto; color: var(--primary);">View all →</a>
                 </div>
                 <div class="table-container">
                     <table id="activeStakesTable">
                         <thead>
                             <tr>
-                                <th>पैकेज</th>
-                                <th>अमाउंट (VNT)</th>
-                                <th>वैल्यू (USDT)</th>
-                                <th>पेंडिंग रिवॉर्ड</th>
-                                <th>लॉक खत्म</th>
-                                <th>एक्शन</th>
+                                <th>Package</th>
+                                <th>Amount (VNT)</th>
+                                <th>Value (USDT)</th>
+                                <th>Pending</th>
+                                <th>Lock ends</th>
+                                <th>Action</th> 
                             </tr>
                         </thead>
                         <tbody id="stakesPreviewBody">
                             <tr>
-                                <td colspan="6" style="text-align: center;">कोई एक्टिव स्टेक नहीं</td>
+                                <td colspan="6" style="text-align: center;">No active stakes</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1199,8 +1198,7 @@
             <div class="alert alert-info">
                 <i class="fas fa-info-circle"></i>
                 <div>
-                    <strong>जानकारी:</strong> स्टेक करने के लिए पहले VNT टोकन अप्रूव करना जरूरी है। रिवॉर्ड सीधे USDT में मिलेंगे।
-                </div>
+                    <strong>Info:</strong> You must approve VNT before staking. Rewards are paid in USDT.
             </div>
         </div>
 
@@ -1209,38 +1207,38 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-coins"></i>
-                    <h3>नया स्टेक करें</h3>
+                    <h3>Create new stake</h3>
                 </div>
                 
                 <div class="form-group">
-                    <label>पैकेज चुनें</label>
+                    <label>Choose package</label>
                     <select class="form-control" id="stakePackage">
-                        <option value="0">3 महीने - 18% APR</option>
-                        <option value="1">6 महीने - 30% APR</option>
-                        <option value="2">12 महीने - 60% APR</option>
+                        <option value="0">3 Monthly - 18% APR</option>
+                        <option value="1">6 Monthly - 30% APR</option>
+                        <option value="2">12 Monthly - 60% APR</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>अमाउंट (VNT में)</label>
-                    <input type="number" class="form-control" id="stakeAmount" placeholder="कम से कम 100 VNT" min="100" step="1">
+                    <label>Amount (VNT)</label>
+                    <input type="number" class="form-control" id="stakeAmount" placeholder="Min 100 VNT" min="100" step="1">
                     <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
-                        <small style="color: var(--primary);">मिन: 100 VNT</small>
-                        <small style="color: var(--primary);">वैल्यू: <span id="amountUSD">0</span> USDT</small>
+                        <small style="color: var(--primary);">Min: 100 VNT</small>
+                        <small style="color: var(--primary);">Value: <span id="amountUSD">0</span> USDT</small>
                     </div>
                 </div>
 
                 <div class="alert alert-warning" style="margin: 1rem 0;">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>स्टेक करने से पहले VNT टोकन अप्रूव करना न भूलें!</span>
+                    <span>Don't forget to approve VNT before staking!</span>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <button class="btn-secondary" id="approveBtn">
-                        <i class="fas fa-check-circle"></i> अप्रूव करें
+                        <i class="fas fa-check-circle"></i> Approve
                     </button>
                     <button class="btn-primary" id="stakeBtn">
-                        <i class="fas fa-lock"></i> स्टेक करें
+                        <i class="fas fa-lock"></i> Stake
                     </button>
                 </div>
             </div>
@@ -1249,36 +1247,36 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-calculator"></i>
-                    <h3>रिवॉर्ड कैलकुलेटर</h3>
+                    <h3>Reward calculator</h3>
                 </div>
                 
                 <div class="form-group">
-                    <label>अमाउंट (VNT)</label>
+                    <label>Amount (VNT)</label>
                     <input type="number" class="form-control" id="calcAmount" value="1000" min="100">
                 </div>
 
                 <div class="form-group">
-                    <label>पैकेज</label>
+                    <label>Package</label>
                     <select class="form-control" id="calcPackage">
-                        <option value="0">3 महीने (18% APR)</option>
-                        <option value="1">6 महीने (30% APR)</option>
-                        <option value="2">12 महीने (60% APR)</option>
+                        <option value="0">3 Monthly (18% APR)</option>
+                        <option value="1">6 Monthly (30% APR)</option>
+                        <option value="2">12 Monthly (60% APR)</option>
                     </select>
                 </div>
 
                 <div class="stats-grid" style="grid-template-columns: repeat(3,1fr);">
                     <div class="stat-card" style="padding: 1rem;">
-                        <span class="stat-label">दैनिक</span>
+                        <span class="stat-label">Daily</span>
                         <span class="stat-value" id="calcDaily">0.05</span>
                         <small>USDT</small>
                     </div>
                     <div class="stat-card" style="padding: 1rem;">
-                        <span class="stat-label">मासिक</span>
+                        <span class="stat-label">Monthly</span>
                         <span class="stat-value" id="calcMonthly">1.5</span>
                         <small>USDT</small>
                     </div>
                     <div class="stat-card" style="padding: 1rem;">
-                        <span class="stat-label">कुल</span>
+                        <span class="stat-label">Total</span>
                         <span class="stat-value" id="calcTotal">4.5</span>
                         <small>USDT</small>
                     </div>
@@ -1290,7 +1288,7 @@
         <div id="packages" class="page-container">
             <div class="card-header">
                 <i class="fas fa-box"></i>
-                <h3>स्टेकिंग पैकेज</h3>
+                <h3>Staking packages</h3>
             </div>
 
             <div class="packages-grid" id="packagesGrid">
@@ -1303,33 +1301,33 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-history"></i>
-                    <h3>मेरे स्टेक</h3>
+                    <h3>My stakes</h3>
                 </div>
 
                 <!-- Active Stakes -->
                 <div class="card" style="margin: 1rem 0;">
                     <div class="card-header">
                         <i class="fas fa-play-circle"></i>
-                        <h4>एक्टिव स्टेक</h4>
+                        <h4>Active stakes</h4>
                     </div>
                     <div class="table-container">
                         <table id="activeStakesFullTable">
                             <thead>
                                 <tr>
-                                    <th>आईडी</th>
-                                    <th>पैकेज</th>
-                                    <th>अमाउंट (VNT)</th>
-                                    <th>वैल्यू (USDT)</th>
-                                    <th>पेंडिंग रिवॉर्ड</th>
-                                    <th>स्टार्ट</th>
-                                    <th>लॉक खत्म</th>
-                                    <th>क्लेम किया</th>
-                                    <th>एक्शन</th>
+                                    <th>ID</th>
+                                    <th>Package</th>
+                                    <th>Amount (VNT)</th>
+                                    <th>Value (USDT)</th>
+                                    <th>Pending</th>
+                                    <th>Start</th>
+                                    <th>Lock ends</th>
+                                    <th>Claimed</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="activeStakesBody">
                                 <tr>
-                                    <td colspan="9" style="text-align: center;">कोई एक्टिव स्टेक नहीं</td>
+                                    <td colspan="9" style="text-align: center;">No active stakes</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1340,23 +1338,23 @@
                 <div class="card" style="margin: 1rem 0;">
                     <div class="card-header">
                         <i class="fas fa-check-circle"></i>
-                        <h4>रिलीज्ड स्टेक</h4>
+                        <h4>Released stakes</h4>
                     </div>
                     <div class="table-container">
                         <table id="inactiveStakesTable">
                             <thead>
                                 <tr>
-                                    <th>आईडी</th>
-                                    <th>पैकेज</th>
-                                    <th>अमाउंट (VNT)</th>
-                                    <th>कुल रिवॉर्ड</th>
-                                    <th>स्टार्ट</th>
-                                    <th>एंड</th>
+                                    <th>ID</th>
+                                    <th>Package</th>
+                                    <th>Amount (VNT)</th>
+                                    <th>Total reward</th>
+                                    <th>Start</th>
+                                    <th>End</th>
                                 </tr>
                             </thead>
                             <tbody id="inactiveStakesBody">
                                 <tr>
-                                    <td colspan="6" style="text-align: center;">कोई रिलीज्ड स्टेक नहीं</td>
+                                    <td colspan="6" style="text-align: center;">No released stakes</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1372,7 +1370,7 @@
             <span class="close-modal" id="closeModal">&times;</span>
             <div class="card-header">
                 <i class="fas fa-gem"></i>
-                <h3>स्टेक डिटेल्स</h3>
+                <h3>Stake details</h3>
             </div>
             <div id="modalContent">
                 <!-- Modal content will be loaded here -->
@@ -1383,7 +1381,7 @@
     <!-- Toast Notification -->
     <div class="toast hidden" id="toast">
         <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">सफल!</span>
+        <span id="toastMessage">Success!</span>
     </div>
 
     <script>
@@ -1512,7 +1510,7 @@
                     document.getElementById('walletAddress').textContent = 
                         currentAccount.slice(0, 6) + '...' + currentAccount.slice(-4);
                     
-                    showToast('वॉलेट कनेक्ट हो गया!');
+                    showToast('Wallet connected');
                     
                     // Initialize contract
                     if (window.ethereum && contractAddress !== "0xYourContractAddressHere") {
@@ -1524,21 +1522,21 @@
                     loadUserData();
                     
                 } catch (error) {
-                    showToast('कनेक्शन फेल: ' + error.message, 'error');
+                    showToast(error.message, 'error');
                 }
             } else {
-                showToast('MetaMask इंस्टॉल नहीं है!', 'warning');
+                showToast('Install MetaMask!', 'warning');
                 window.open('https://metamask.io', '_blank');
             }
         });
 
         walletInfo.addEventListener('click', () => {
-            if (confirm('वॉलेट डिस्कनेक्ट करें?')) {
+            if (confirm('Disconnect wallet?')) {
                 currentAccount = null;
                 isConnected = false;
                 connectBtn.classList.remove('hidden');
                 walletInfo.classList.add('hidden');
-                showToast('वॉलेट डिस्कनेक्ट हो गया');
+                showToast('Disconnected');
             }
         });
 
@@ -1585,9 +1583,9 @@
             packagesGrid.innerHTML = '';
             
             const packages = [
-                { name: 'डायमंड 3', months: 3, apr: 18, desc: 'शॉर्ट टर्म स्टेकिंग' },
-                { name: 'डायमंड 6', months: 6, apr: 30, desc: 'मीडियम टर्म स्टेकिंग' },
-                { name: 'डायमंड 12', months: 12, apr: 60, desc: 'लॉन्ग टर्म स्टेकिंग' }
+                { name: 'Silver 3', months: 3, apr: 18, desc: 'Short Term Staking' },
+                { name: 'Gold 6', months: 6, apr: 30, desc: 'Medium Term Staking' },
+                { name: 'Diamond 12', months: 12, apr: 60, desc: 'Long Term Staking' }
             ];
             
             packages.forEach((pkg, index) => {
@@ -1597,16 +1595,16 @@
                     <div class="package-header">
                         <h3>${pkg.name}</h3>
                         <div class="package-apr">${pkg.apr}% APR</div>
-                        <div class="package-duration">${pkg.months} महीने</div>
+                        <div class="package-duration">${pkg.months} Monthly</div>
                     </div>
                     <p style="margin: 1rem 0; color: var(--diamond);">${pkg.desc}</p>
                     <ul class="package-features">
-                        <li><i class="fas fa-check-circle"></i> USDT में रिवॉर्ड</li>
-                        <li><i class="fas fa-check-circle"></i> कोई लॉकिंग फीस नहीं</li>
-                        <li><i class="fas fa-check-circle"></i> कभी भी क्लेम करें</li>
+                        <li><i class="fas fa-check-circle"></i> Rewards in USDT</li>
+                        <li><i class="fas fa-check-circle"></i> No Loking fees</li>
+                        <li><i class="fas fa-check-circle"></i> Claim anytime</li>
                     </ul>
                     <button class="btn-primary" onclick="switchPage('stake')">
-                        स्टेक करें
+                        Stake
                     </button>
                 `;
                 packagesGrid.appendChild(card);
