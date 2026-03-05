@@ -1637,7 +1637,7 @@
                         maxApr = pkg.apr;
                     }
                 }
-                document.getElementById('maxApr').textContent = maxApr + '%';
+                document.getElementById('maxApr').textContent = (maxApr / 100) + '%';
                 
             } catch (error) {
                 console.error('Error loading global stats:', error);
@@ -1721,7 +1721,7 @@
                 
                 html += `
                     <tr>
-                        <td>Package ${parseInt(stake.pid) + 1} (${stake.apr}% APR)</td>
+                        <td>Package ${parseInt(stake.pid) + 1} (${stake.apr / 100}% APR)</td>
                         <td>${formatNumber(stake.amount.toFixed(0))} VNT</td>
                         <td>$${formatNumber((stake.amount * 0.1).toFixed(2))}</td>
                         <td>${formatNumber(stake.pending.toFixed(2))} USDT</td>
@@ -1760,7 +1760,7 @@
                 html += `
                     <tr>
                         <td>#${stake.id}</td>
-                        <td>Package ${parseInt(stake.pid) + 1} (${stake.apr}%)</td>
+                        <td>Package ${parseInt(stake.pid) + 1} (${stake.apr / 100}%)</td>
                         <td>${formatNumber(stake.amount.toFixed(0))} VNT</td>
                         <td>$${formatNumber((stake.amount * 0.1).toFixed(2))}</td>
                         <td>${formatNumber(stake.pending.toFixed(2))} USDT</td>
@@ -1828,7 +1828,7 @@
                     <div class="package-card">
                         <div class="package-header">
                             <h3>${packageName}</h3>
-                            <div class="package-apr">${pkg.apr}% APR</div>
+                            <div class="package-apr">${pkg.apr / 100}% APR</div>
                             <div class="package-duration">${pkg.months} months</div>
                         </div>
                         <p style="margin: 1rem 0; color: var(--diamond);">Earn ${pkg.apr}% annually in USDT</p>
@@ -1843,7 +1843,7 @@
                     </div>
                 `;
                 
-                optionsHtml += `<option value="${pkg.id}">${packageName} - ${pkg.months} months (${pkg.apr}% APR)</option>`;
+                optionsHtml += `<option value="${pkg.id}">${packageName} - ${pkg.months} months (${pkg.apr / 100}% APR)</option>`;
             });
             
             packagesGrid.innerHTML = gridHtml;
