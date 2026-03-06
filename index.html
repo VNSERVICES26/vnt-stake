@@ -1061,6 +1061,13 @@
                 <button class="btn-primary mt-4" onclick="claimAllRewards()">
                     <i class="fas fa-hand-holding-heart"></i> Claim All Rewards
                 </button>
+                <div class="alert alert-info" style="margin-top: 1.5rem;">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Note:</strong> Rewards are in USDT and need to be claimed manually. 
+                        Minimum claim amount is <strong id="minWithdrawDisplay">5</strong> USDT.
+                    </div>
+                </div>
             </div>
 
             <div class="card">
@@ -1214,6 +1221,22 @@
         let userStakes = [];
         let refreshInterval;
 
+        async function checkNetwork() {
+            try {
+                const chainId = await web3.eth.getChainId();
+                console.log('Current Chain ID:', chainId);
+        
+                if (chainId !== 56 && chainId !== 97) {
+                    showToast('Please switch to BSC network (Chain ID: 56 or 97)', 'error');
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('Network check error:', error);
+                return false;
+            }
+        }
+        
         // Initialize
         window.addEventListener('load', async () => {
             if (window.ethereum) {
@@ -1251,6 +1274,19 @@
 
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 account = accounts[0];
+
+                const isCorrectNetwork = await checkNetwork();
+                if (!isCorrectNetwork) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0x38' }], // 56 = BSC Mainnet (0x38 in hex)
+                        });
+                    } catch (switchError) {
+                        showToast('Please switch to BSC network manually', 'error');
+                        return;
+                    }
+                }
                 
                 await initializeContract();
                 updateUIForConnected();
@@ -1365,12 +1401,15 @@
                 for (let i = 0; i < count; i++) {
                     const pkg = await contract.methods.getPkg(i).call();
                     if (pkg.active) {
+                        const aprPercentage = Number(pkg.apr) / 100;
                         packages.push({
                             id: i,
-                            durMon: pkg.durMon,
-                            apr: pkg.apr / 100, // Convert basis points to percentage
+                            durMon: Number(pkg.durMon),
+                            apr: aprPercentage,
                             durSec: pkg.durSec
                         });
+        
+                        console.log(`Package ${i}: ${aprPercentage}% APR`); 
                     }
                 }
                 
@@ -1401,8 +1440,9 @@
                         </div>
                         <ul class="package-features">
                             <li><i class="fas fa-check-circle"></i> Daily Rewards in USDT</li>
-                            <li><i class="fas fa-check-circle"></i> Compound Automatically</li>
+                            <li><i class="fas fa-check-circle"></i> Claim Anytime</li>
                             <li><i class="fas fa-check-circle"></i> Principal Protected</li>
+                            <li><i class="fas fa-check-circle"></i> Manual Claim Required</li>
                         </ul>
                         <button class="btn-primary" onclick="selectPackage(${pkg.id})">Stake Now</button>
                     </div>
@@ -1726,6 +1766,11 @@
                 
                 const minWithdraw = await contract.methods.minWithdrawAmount().call();
                 document.getElementById('minWithdraw').textContent = (minWithdraw / 1e18).toFixed(2);
+
+                const minWithdrawDisplay = document.getElementById('minWithdrawDisplay');
+                if (minWithdrawDisplay) {
+                    minWithdrawDisplay.textContent = minWithdrawValue;
+                }
                 
                 const minStake = await contract.methods.minStakeAmount().call();
                 document.getElementById('minStake').textContent = (minStake / 1e18).toFixed(2);
