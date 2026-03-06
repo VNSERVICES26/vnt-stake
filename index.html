@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VNT APR - Multi-Wallet Support</title>
+    <title>VNT APR - BSC Staking</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -814,7 +814,7 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-gem"></i>
-                <span>VNT APR - Multi-Wallet</span>
+                <span>VNT APR on BSC</span>
             </div>
             
             <div class="nav-links">
@@ -859,7 +859,7 @@
         <div id="dashboard" class="page-container active">
             <div class="hero-section">
                 <h1 class="glowing-text">VNT APR</h1>
-                <h2 class="gradient-text">Multi-Wallet Support</h2>
+                <h2 class="gradient-text">on Binance Smart Chain</h2>
                 
                 <div class="hero-stats">
                     <div class="stat-card">
@@ -912,18 +912,9 @@
         <span id="toastMessage"></span>
     </div>
 
-    <!-- Wallet Connect Modal (for Web3Modal) -->
-    <div id="wallet-modal" style="display: none;"></div>
-
-    <!-- Add Web3Modal and other libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3modal@1.9.4/dist/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.1/dist/umd/index.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@coinbase/wallet-sdk@3.0.4/dist/index.min.js"></script>
-
     <script>
         // ============================================
-        // BSC MAINNET CONFIGURATION
+        // IMPORTANT: BSC MAINNET CONFIGURATION
         // ============================================
         const BSC_CONFIG = {
             chainId: '0x38', // 56 in hexadecimal
@@ -938,81 +929,16 @@
         };
 
         // YOUR CONTRACT ADDRESS - REPLACE THIS
-        const CONTRACT_ADDRESS = "0x3FbcFA4c1E44fFd1751607475503Fb0e229b90dE";
+        const CONTRACT_ADDRESS = "0x3FbcFA4c1E44fFd1751607475503Fb0e229b90dE"; // Put your BSC contract address here
+        
+        // YOUR TOKEN ADDRESSES - REPLACE THESE
         const VNT_TOKEN_ADDRESS = "0xD379Fd70C5C334bb31208122A6781ADB032D176f";
         const USDT_TOKEN_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
 
         // State
         let account = null;
         let web3 = null;
-        let provider = null;
-        let web3Modal = null;
-
-        // Initialize Web3Modal on page load
-        window.addEventListener('load', function() {
-            initializeWeb3Modal();
-        });
-
-        // Initialize Web3Modal with multiple wallet support
-        function initializeWeb3Modal() {
-            // Provider options for different wallets
-            const providerOptions = {
-                // Built-in injected providers (MetaMask, Trust Wallet, etc.)
-                injected: {
-                    display: {
-                        name: "Injected",
-                        description: "Connect with browser wallet"
-                    },
-                    package: null
-                },
-                // WalletConnect for mobile wallets (Trust Wallet, Rainbow, etc.)
-                walletconnect: {
-                    display: {
-                        name: "WalletConnect",
-                        description: "Scan with mobile wallet"
-                    },
-                    package: window.WalletConnectProvider ? window.WalletConnectProvider.default : null,
-                    options: {
-                        rpc: {
-                            56: "https://bsc-dataseed.binance.org/" // BSC Mainnet
-                        },
-                        chainId: 56
-                    }
-                },
-                // Coinbase Wallet
-                coinbasewallet: {
-                    display: {
-                        name: "Coinbase",
-                        description: "Connect to Coinbase Wallet"
-                    },
-                    package: window.CoinbaseWalletSDK ? window.CoinbaseWalletSDK.default : null,
-                    options: {
-                        appName: "VNT APR Staking",
-                        rpc: "https://bsc-dataseed.binance.org/",
-                        chainId: 56
-                    }
-                }
-            };
-
-            // Create Web3Modal instance
-            web3Modal = new window.Web3Modal.default({
-                cacheProvider: true, // Remember user's choice
-                providerOptions: providerOptions,
-                theme: {
-                    background: "rgb(0, 0, 0)",
-                    main: "rgb(0, 255, 255)",
-                    secondary: "rgb(255, 0, 255)",
-                    border: "rgba(0, 255, 255, 0.5)",
-                    hover: "rgba(0, 255, 255, 0.2)"
-                },
-                disableInjectedProvider: false // Show MetaMask option
-            });
-
-            // Check if previously connected
-            if (web3Modal.cachedProvider) {
-                connectWallet();
-            }
-        }
+        let contract = null;
 
         // Show Page
         function showPage(page) {
@@ -1059,29 +985,77 @@
             }, 3000);
         }
 
-        // Connect Wallet with Multi-Wallet Support
-        async function connectWallet() {
+        // Check if on BSC network
+        async function checkAndSwitchToBSC() {
+            if (typeof window.ethereum === 'undefined') {
+                showToast('Please install MetaMask first!', true);
+                return false;
+            }
+
             try {
-                if (!web3Modal) {
-                    initializeWeb3Modal();
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                
+                // Check if already on BSC (chainId 56 in hex = 0x38)
+                if (chainId === '0x38') {
+                    return true;
                 }
 
-                // Show wallet selection modal
-                provider = await web3Modal.connect();
+                // Try to switch to BSC
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: '0x38' }],
+                    });
+                    return true;
+                } catch (switchError) {
+                    // If BSC is not added to MetaMask, add it
+                    if (switchError.code === 4902) {
+                        try {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [BSC_CONFIG],
+                            });
+                            return true;
+                        } catch (addError) {
+                            showToast('Failed to add BSC network', true);
+                            return false;
+                        }
+                    }
+                    showToast('Please switch to BSC network', true);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Network check error:', error);
+                showToast('Network error', true);
+                return false;
+            }
+        }
+
+        // Connect Wallet - FIXED FOR BSC
+        async function connectWallet() {
+            try {
+                // Check if MetaMask is installed
+                if (typeof window.ethereum === 'undefined') {
+                    showToast('Please install MetaMask first!', true);
+                    return;
+                }
+
+                // First, ensure we're on BSC network
+                const onBSC = await checkAndSwitchToBSC();
+                if (!onBSC) {
+                    return;
+                }
+
+                // Request account access
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
                 
-                // Initialize Web3
-                web3 = new Web3(provider);
-                
-                // Get accounts
-                const accounts = await web3.eth.getAccounts();
+                // Get the first account
                 account = accounts[0];
                 
-                // Check if on BSC network
-                const chainId = await web3.eth.getChainId();
-                if (chainId !== 56) {
-                    showToast('Please switch to BSC Mainnet', true);
-                    await switchToBSC();
-                }
+                // Initialize Web3
+                web3 = new Web3(window.ethereum);
                 
                 // Update UI
                 document.getElementById('connectBtn').classList.add('hidden');
@@ -1089,42 +1063,10 @@
                 document.getElementById('walletAddress').textContent = 
                     account.slice(0, 6) + '...' + account.slice(-4);
                 
-                showToast('Wallet connected successfully!');
+                showToast('Connected to BSC Mainnet!');
                 
-                // Subscribe to events
-                subscribeToEvents();
-                
-            } catch (error) {
-                console.error('Connection error:', error);
-                showToast('Failed to connect wallet: ' + error.message, true);
-            }
-        }
-
-        // Switch to BSC Network
-        async function switchToBSC() {
-            try {
-                await provider.request({
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: '0x38' }]
-                });
-            } catch (switchError) {
-                if (switchError.code === 4902) {
-                    try {
-                        await provider.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [BSC_CONFIG]
-                        });
-                    } catch (addError) {
-                        showToast('Failed to add BSC network', true);
-                    }
-                }
-            }
-        }
-
-        // Subscribe to wallet events
-        function subscribeToEvents() {
-            if (provider.on) {
-                provider.on('accountsChanged', (accounts) => {
+                // Listen for account changes
+                window.ethereum.on('accountsChanged', function(accounts) {
                     if (accounts.length === 0) {
                         disconnectWallet();
                     } else {
@@ -1134,35 +1076,48 @@
                         showToast('Account changed');
                     }
                 });
-                
-                provider.on('chainChanged', (chainId) => {
-                    window.location.reload();
+
+                // Listen for chain changes
+                window.ethereum.on('chainChanged', (chainId) => {
+                    if (chainId !== '0x38') {
+                        showToast('Please switch to BSC network', true);
+                        disconnectWallet();
+                    } else {
+                        window.location.reload();
+                    }
                 });
-                
-                provider.on('disconnect', () => {
-                    disconnectWallet();
-                });
+
+            } catch (error) {
+                console.error('Connection error:', error);
+                showToast('Failed to connect wallet: ' + error.message, true);
             }
         }
 
         // Disconnect Wallet
-        async function disconnectWallet() {
-            if (web3Modal) {
-                web3Modal.clearCachedProvider();
-            }
-            
-            if (provider && provider.disconnect) {
-                await provider.disconnect();
-            }
-            
+        function disconnectWallet() {
             account = null;
             web3 = null;
-            provider = null;
-            
+            contract = null;
             document.getElementById('connectBtn').classList.remove('hidden');
             document.getElementById('walletInfo').classList.add('hidden');
             showToast('Wallet disconnected');
         }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            // Check if already connected
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_accounts' })
+                    .then(accounts => {
+                        if (accounts.length > 0) {
+                            connectWallet();
+                        }
+                    })
+                    .catch(console.error);
+            }
+        });
     </script>
+    <!-- Add Web3 library -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
 </body>
 </html>
