@@ -896,8 +896,6 @@
                 <span></span>
                 <span></span>
                 <span></span>
-                <span></span>
-                <span></span>
             </div>
         </div>
     </nav>
@@ -1775,7 +1773,7 @@
 
                 const minWithdrawDisplay = document.getElementById('minWithdrawDisplay');
                 if (minWithdrawDisplay) {
-                    minWithdrawDisplay.textContent = minWithdrawValue;
+                    minWithdrawDisplay.textContent = (minWithdraw / 1e18).toFixed(2);  
                 }
                 
                 const minStake = await contract.methods.minStakeAmount().call();
